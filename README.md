@@ -8,7 +8,7 @@
 - npm install raw-loader --save-dev
 
 ## Config file
-**_remark: removw moduleId line for all component because webpack not support moduleId as a string_**.
+**_remark: remove moduleId line for all component because webpack convert moduleId to number_**.
 - config/helpers.js
 
 ```js
@@ -31,17 +31,23 @@ var helpers = require('./config/helpers');
 
 module.exports = {
 
-  entry: './src/app/go-framework.ts', //example file
+  entry: {
+    'libmodule': './src/go-module/lib.module.index.ts', //example file
+    'gomodule': './src/go-module/go.module.index.ts' //example file
   output: {
-    filename: 'gomodule.bundle.js', //example output file name
-    path: path.resolve(__dirname, './src/app'), //example out path
+    path: helpers.root('dist'),
+    publicPath: '/',
+    filename: '[name].umd.js', //example output file name
     libraryTarget: "umd"
   },
   externals: { //example number of library for use
     "@angular/core": "@angular/core",
     "@angular/common": "@angular/common",
-    "numeral": "numeral",
-    "ng2-bootstrap": "ng2-bootstrap"
+    "@angular/forms": "@angular/forms",
+    "@angular/router": "@angular/router",
+    "@angular/http": "@angular/http",
+    "rxjs/add/operator/map": "rxjs/add/operator/map",
+    "@angular/platform-browser": "@angular/platform-browser",
   },
   resolve: {
     extensions: ['.ts', '.js']
