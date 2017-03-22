@@ -1,0 +1,267 @@
+<div class="container">
+	<div class="row">
+		<!--<div class="col-sm-12 col-md-6 col-lg-4">
+	    	<div class="card">
+				<h3 class="card-header">auto-complete</h3>
+				<div class="card-block component">
+						<div class="text-xs-center">
+							<input type="text" class="form-control" auto-complete [(ngModel)]="autoCompleteModel" 
+							placeholder="Enter Address(min. 2 chars)" [source]="googleGeoCode" display-property-name="formatted_address" path-to-data="results" min-chars="2">
+						</div>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/autocomplete']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>-->
+		<div class="col-sm-12 col-md-6 col-lg-4">
+	    	<div class="card">
+				<h3 class="card-header">go-badge</h3>
+				<div class="card-block component">
+						<div class="text-xs-center"><go-badge type="badge" badgeData="badge"></go-badge></div><br/>
+						<div class="text-xs-center"><go-badge type="badge-link" labelText="Link" badgeData="6"></go-badge></div><br/>
+						<div class="text-xs-center"><go-badge type="badge-button" buttonColor="secondary" labelText="Button" badgeData="6"></go-badge></div><br/>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/badge']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">go-button</h3>
+				<div class="card-block component">
+						<div class="text-xs-center"><go-button label="Small Button" buttonSize="sm" buttonColor="outline-primary" iconName="camera"></go-button></div><br/>
+						<div class="text-xs-center"><go-button label="Default Button" buttonColor="outline-secondary"></go-button></div><br/>
+						<div class="text-xs-center"><go-button label="Large Button" buttonSize="lg" buttonColor="outline-success"></go-button></div>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/button']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">go-datetimepicker</h3>
+				<div class="card-block component">
+					<go-datetimepicker calendarLanguage="th" [isFromTo]="true" fromLabel="จาก" toLabel="ถึง" clearLabel="ลบทิ้ง" [showClearButton]="true" [yearNavigator]="true" yearRange="2000:2020" [monthNavigator]="true" dateFormat='dd/mm/yy' 
+						[isBuddhistYear]="true" [readonlyInput]="true" [(date1)]="dateFrom" [(date2)]="dateTo"></go-datetimepicker><br>
+					Date From: {{dateFrom}}<br><br>
+					Date To: {{dateTo}}
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/datetimepicker']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-6 col-lg-4">
+	    <div class="card">
+				<h3 class="card-header">go-chart</h3>
+				<div class="card-block component">
+						<div class="text-xs-center"><go-chart chartType="pie" [chartData]='chartData2' [chartLabel]='chartLabel' showLegend='true'></go-chart></div><br/>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/chart']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">go-checkbox</h3>
+				<div class="card-block component">
+					<go-checkbox name="chbnames1" id="chbid1" label="Choose expertise: " type="block" [data]="datas" block="block" colorTheme="warning" require="true">  check </go-checkbox>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/checkbox']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>
+		<!--<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">go-image-gallery</h3>
+				<div class="card-block component">
+					<div class="text-xs-center"><go-image-gallery [images]="ImgGallery" showImage=3></go-image-gallery></div>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/imagegallery']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>-->
+		<!--<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">message-popup</h3>
+				<div class="card-block component text-xs-center">
+					<go-button label="Show popup" buttonSize="sm" buttonColor="primary" (click)="openAlertPopup()"></go-button>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/popup']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>-->
+		<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">go-progressbar</h3>
+				<div class="card-block component text-xs-center">
+					<go-progressbar [progress]="progress_1"></go-progressbar>
+					<go-button label="Start progress" buttonSize="sm" buttonColor="primary" (click)="startProgress()"></go-button>
+					<go-button label="Complete progress" buttonSize="sm" buttonColor="primary" (click)="completeProgress()"></go-button>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/progressbar']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">go-pulldown-menu</h3>
+				<div class="card-block component text-xs-center">
+					<ul class="nav navbar-nav">
+						<li class="nav-item active" routerLinkActive="active">
+							<a class="nav-link" [routerLink]="['/']">Menu 1</a>
+						</li>
+						<li class="nav-item active" routerLinkActive="active">
+							<a class="nav-link" [routerLink]="['/']">Menu 2</a>
+						</li>
+						<go-pulldown-menu headLabel="Pulldown Menu" [pageList]="pageListArray"></go-pulldown-menu>
+					</ul>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/pulldown']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">go-radiobutton</h3>
+				<div class="card-block component">
+					<go-radiobutton name="radioname1" 
+                  id="radioid1" 
+                  label="Radio button: " 
+                  [data]="data" 
+                  type="block"
+                  colorTheme="success" 
+                  require="true" 
+				  (valueOut)="textValueRadio($event)"></go-radiobutton><br>
+				  <p> <strong> Output value: </strong> {{getValue}} </p>
+				  <p> <strong> Output label: </strong> {{getLabel}} </p>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/radiobutton']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">ng-select</h3>
+				<div class="card-block component">
+					<ng-select [allowClear]="true" 
+						placeholder="please select city"
+						[items]="items"
+						[disabled]="disabledSingle" 
+						(data)="refreshSingleValue($event)"></ng-select><br>
+				<p><strong> Select: </strong> {{ singleValue.text }} </p>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/selectbox']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">go-sidebar</h3>
+				<div class="card-block component">
+					<sidebar-child>Show Side Bar</sidebar-child>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/sidebar']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>
+		<!--<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">tab</h3>
+				<div class="card-block component">
+					<tabset> 
+						<tab heading="TAB 1"><h1>TAB 1</h1></tab> 
+						<tab heading="TAB 2"><h1>TAB 2</h1></tab> 
+					</tabset> 
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/tab']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>-->
+		<!--<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">go-table</h3>
+				<div class="card-block component">
+					<go-table class="table-striped table-border table-sm" paging=false filterAll=true [columns]="tableColumns" [(data)]="dataOfTable"></go-table>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/table']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>-->
+		<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">go-textarea</h3>
+				<div class="card-block component">
+					<go-textarea label="Text Area" row="4" goId="textarea_sample" colorTheme="info"></go-textarea>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/textarea']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">go-textbox</h3>
+				<div class="card-block component">
+					<go-textbox type="number" label="Number with Validation" require="true" id="textbox_1" placeholder="put valid number"></go-textbox>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/textbox']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>
+		<!--<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">go-texteditor</h3>
+				<div class="card-block component"><go-texteditor elementId='editor_1' height='100' editormode='basic' showMenubar="false" content='editor'></go-texteditor></div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/texteditor']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>-->
+		<!--<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">tooltip</h3>
+				<div class="card-block component text-xs-center"><go-button label="mouse on/tab me" buttonColor="primary" tooltip="It's tooltip !!"></go-button></div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/tooltip']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>-->
+		<!--<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">go-tree</h3>
+				<div class="card-block component"><go-tree [directories]="directories" id="treeview1" name="treeviewname"></go-tree></div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/tree']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>-->
+		<!--<div class="col-sm-12 col-md-6 col-lg-4">
+			<div class="card">
+				<h3 class="card-header">go-upload</h3>
+				<div class="card-block component">
+					<go-upload name="demo" url="http://localhost:10050/upload" [multiple]="true" accept="image/*,text/*" fileTypeAllow="image/*,text/*" [autoUpload]="false" [maxFileSize]=50*1024*1024 [showImage]="true" [previewWidth]="100" [speedCalculationTime]=1000 [canAbort]="true" [messageSettings]="message_sets" [showOptions]="show_opts" (onFinish)="onFinish($event)" (onError)="onError($event)" (onSelect)="onSelect($event)" (onDelete)="onDelete($event)" (onClear)="onClear($event)"></go-upload>
+					<small>อัพโหลดไฟล์ประเภท image, text</small>
+				</div>
+				<div class="card-block text-xs-center">
+					<go-button routerLinkActive="active" [routerLink]="['/upload']" label="How to use" buttonColor="danger"></go-button>
+				</div>
+			</div>
+		</div>-->
+	</div>
+</div>
