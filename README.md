@@ -1,16 +1,17 @@
-#How to pack component
+# How to pack component
 
-##Prerequisite
+## Prerequisite
 
 - npm install webpack --save-dev
 - npm install angular2-template-loader --save-dev
 - npm install awesome-typescript-loader --save-dev
 - npm install raw-loader --save-dev
 
-##Config file
+## Config file
 **_remark: removw moduleId line for all component because webpack not support moduleId as a string_**.
 - config/helpers.js
-```javascript
+
+```js
 var path = require('path');
 var _root = path.resolve(__dirname, '..');
 function root(args) {
@@ -22,7 +23,8 @@ exports.root = root;
 - package.json - insert command for call webpack ex. `"webpack": "webpack --colors"`
 - tsconfig.json - add `"types": [ "node" ]` in compilerOptions for remove error cannot file require on compile time
 - webpack.config.js
-```
+
+```js
 var path = require('webpack');
 var path = require('path');
 var helpers = require('./config/helpers');
