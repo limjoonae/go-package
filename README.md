@@ -12,6 +12,7 @@ Webpack Environment คือโปรเจคสำหรับการแพ
 - Radio Button
 - Select Box
 - Sidebar
+- Table
 - Textarea
 - Textbox
 - Texteditor

@@ -7,7 +7,7 @@
 		var a = typeof exports === 'object' ? factory(require("@angular/core"), require("@angular/common"), require("@angular/forms"), require("@angular/http"), require("rxjs/add/operator/map")) : factory(root["@angular/core"], root["@angular/common"], root["@angular/forms"], root["@angular/http"], root["rxjs/add/operator/map"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_50__, __WEBPACK_EXTERNAL_MODULE_52__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_55__, __WEBPACK_EXTERNAL_MODULE_56__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 265);
+/******/ 	return __webpack_require__(__webpack_require__.s = 273);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -85,13 +85,13 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
 /***/ }),
 
-/***/ 175:
+/***/ 179:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var core_1 = __webpack_require__(1);
-var ng2_auto_complete_component_1 = __webpack_require__(20);
+var ng2_auto_complete_component_1 = __webpack_require__(25);
 var forms_1 = __webpack_require__(3);
 /**
  * display auto-complete section with input and dropdown list when it is clicked
@@ -344,13 +344,67 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
 /***/ }),
 
-/***/ 20:
+/***/ 247:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var core_1 = __webpack_require__(1);
+var common_1 = __webpack_require__(2);
+var forms_1 = __webpack_require__(3);
+var ng2_auto_complete_1 = __webpack_require__(277);
+// import { } from 'primeng/primeng';
+// import { HighlightPipe, OffClickDirective, SelectComponent } from 'ng2-select';
+// import { NgTranscludeDirective, TabDirective, TabsetComponent, TabHeadingDirective, TabsetConfig } from './component/go-ng2-bootstrap/node_modules/ng2-bootstrap/src/tabs/index';
+// import { TooltipContainerComponent, TooltipDirective, TooltipConfig } from './component/go-ng2-bootstrap/node_modules/ng2-bootstrap/src/tooltip/index';
+// import { ComponentLoaderFactory } from './component/go-ng2-bootstrap/node_modules/ng2-bootstrap/src/component-loader/index';
+// import { PositioningService } from './component/go-ng2-bootstrap/node_modules/ng2-bootstrap/src/positioning/index';
+var LibModule = LibModule_1 = (function () {
+    function LibModule() {
+    }
+    LibModule.forRoot = function () {
+        return {
+            ngModule: LibModule_1,
+            providers: [
+                ng2_auto_complete_1.Ng2AutoComplete,
+            ]
+        };
+    };
+    return LibModule;
+}());
+LibModule = LibModule_1 = __decorate([
+    core_1.NgModule({
+        imports: [common_1.CommonModule, forms_1.FormsModule],
+        declarations: [
+            ng2_auto_complete_1.Ng2AutoCompleteComponent, ng2_auto_complete_1.Ng2AutoCompleteDirective,
+        ],
+        exports: [
+            ng2_auto_complete_1.Ng2AutoCompleteComponent, ng2_auto_complete_1.Ng2AutoCompleteDirective,
+        ],
+        entryComponents: [
+            ng2_auto_complete_1.Ng2AutoCompleteComponent,
+        ],
+    })
+], LibModule);
+exports.LibModule = LibModule;
+var LibModule_1;
+
+
+/***/ }),
+
+/***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var core_1 = __webpack_require__(1);
-var ng2_auto_complete_1 = __webpack_require__(21);
+var ng2_auto_complete_1 = __webpack_require__(26);
 /**
  * show a selected date in monthly calendar
  * Each filteredList item has the following property in addition to data itself
@@ -546,14 +600,14 @@ exports.Ng2AutoCompleteComponent = Ng2AutoCompleteComponent;
 
 /***/ }),
 
-/***/ 21:
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var core_1 = __webpack_require__(1);
-var http_1 = __webpack_require__(50);
-__webpack_require__(52);
+var http_1 = __webpack_require__(55);
+__webpack_require__(56);
 /**
  * provides auto-complete related utility functions
  */
@@ -634,89 +688,35 @@ exports.Ng2AutoComplete = Ng2AutoComplete;
 
 /***/ }),
 
-/***/ 242:
+/***/ 273:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var core_1 = __webpack_require__(1);
-var common_1 = __webpack_require__(2);
-var forms_1 = __webpack_require__(3);
-var ng2_auto_complete_1 = __webpack_require__(269);
-// import { } from 'primeng/primeng';
-// import { HighlightPipe, OffClickDirective, SelectComponent } from 'ng2-select';
-// import { NgTranscludeDirective, TabDirective, TabsetComponent, TabHeadingDirective, TabsetConfig } from './component/go-ng2-bootstrap/node_modules/ng2-bootstrap/src/tabs/index';
-// import { TooltipContainerComponent, TooltipDirective, TooltipConfig } from './component/go-ng2-bootstrap/node_modules/ng2-bootstrap/src/tooltip/index';
-// import { ComponentLoaderFactory } from './component/go-ng2-bootstrap/node_modules/ng2-bootstrap/src/component-loader/index';
-// import { PositioningService } from './component/go-ng2-bootstrap/node_modules/ng2-bootstrap/src/positioning/index';
-var LibModule = LibModule_1 = (function () {
-    function LibModule() {
-    }
-    LibModule.forRoot = function () {
-        return {
-            ngModule: LibModule_1,
-            providers: [
-                ng2_auto_complete_1.Ng2AutoComplete,
-            ]
-        };
-    };
-    return LibModule;
-}());
-LibModule = LibModule_1 = __decorate([
-    core_1.NgModule({
-        imports: [common_1.CommonModule, forms_1.FormsModule],
-        declarations: [
-            ng2_auto_complete_1.Ng2AutoCompleteComponent, ng2_auto_complete_1.Ng2AutoCompleteDirective,
-        ],
-        exports: [
-            ng2_auto_complete_1.Ng2AutoCompleteComponent, ng2_auto_complete_1.Ng2AutoCompleteDirective,
-        ],
-        entryComponents: [
-            ng2_auto_complete_1.Ng2AutoCompleteComponent,
-        ],
-    })
-], LibModule);
-exports.LibModule = LibModule;
-var LibModule_1;
-
-
-/***/ }),
-
-/***/ 265:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var lib_module_1 = __webpack_require__(242);
+var lib_module_1 = __webpack_require__(247);
 exports.LibModule = lib_module_1.LibModule;
 
 
 /***/ }),
 
-/***/ 269:
+/***/ 277:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var ng2_auto_complete_1 = __webpack_require__(21);
+var ng2_auto_complete_1 = __webpack_require__(26);
 exports.Ng2AutoComplete = ng2_auto_complete_1.Ng2AutoComplete;
-var ng2_auto_complete_module_1 = __webpack_require__(270);
+var ng2_auto_complete_module_1 = __webpack_require__(278);
 exports.Ng2AutoCompleteModule = ng2_auto_complete_module_1.Ng2AutoCompleteModule;
-var ng2_auto_complete_component_1 = __webpack_require__(20);
+var ng2_auto_complete_component_1 = __webpack_require__(25);
 exports.Ng2AutoCompleteComponent = ng2_auto_complete_component_1.Ng2AutoCompleteComponent;
-var ng2_auto_complete_directive_1 = __webpack_require__(175);
+var ng2_auto_complete_directive_1 = __webpack_require__(179);
 exports.Ng2AutoCompleteDirective = ng2_auto_complete_directive_1.Ng2AutoCompleteDirective;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
 
-/***/ 270:
+/***/ 278:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -724,9 +724,9 @@ exports.Ng2AutoCompleteDirective = ng2_auto_complete_directive_1.Ng2AutoComplete
 var core_1 = __webpack_require__(1);
 var common_1 = __webpack_require__(2);
 var forms_1 = __webpack_require__(3);
-var ng2_auto_complete_component_1 = __webpack_require__(20);
-var ng2_auto_complete_directive_1 = __webpack_require__(175);
-var ng2_auto_complete_1 = __webpack_require__(21);
+var ng2_auto_complete_component_1 = __webpack_require__(25);
+var ng2_auto_complete_directive_1 = __webpack_require__(179);
+var ng2_auto_complete_1 = __webpack_require__(26);
 var Ng2AutoCompleteModule = (function () {
     function Ng2AutoCompleteModule() {
     }
@@ -760,17 +760,17 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
 
 /***/ }),
 
-/***/ 50:
+/***/ 55:
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_50__;
+module.exports = __WEBPACK_EXTERNAL_MODULE_55__;
 
 /***/ }),
 
-/***/ 52:
+/***/ 56:
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_52__;
+module.exports = __WEBPACK_EXTERNAL_MODULE_56__;
 
 /***/ })
 

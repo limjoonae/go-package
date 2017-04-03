@@ -23,9 +23,9 @@ import { HighlightPipe, OffClickDirective, SelectComponent } from 'ng2-select';
 import { SidebarModule } from 'ng-sidebar';
 import { SidebarComponent } from './component/go-sidebar/src/app/go-sidebar/component/sidebar.component';
 
-// import { TableComponent } from './component/go-table/src/app/go-table/component/table.component';
-// import { PaginationModule } from 'ng2-bootstrap';
-// import { NgTableComponent, NgTableFilteringDirective, NgTablePagingDirective, NgTableSortingDirective } from 'ng2-table';
+import { TableComponent } from './component/go-table/src/app/go-table/component/table.component';
+import { PaginationModule } from 'ng2-bootstrap';
+import { Ng2TableModule } from 'ng2-table';
 
 import { TextareaComponent } from './component/go-textarea/src/app/go-textarea/component/textarea.component';
 
@@ -47,8 +47,8 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes),
     TooltipModule.forRoot(), 
-    // PaginationModule.forRoot(),
-    // Ng2TableModule,
+    PaginationModule.forRoot(),
+    Ng2TableModule,
     SidebarModule,
   ],
   declarations: [
@@ -63,8 +63,7 @@ const appRoutes: Routes = [
     RadioButtonComponent,
     HighlightPipe, OffClickDirective, SelectComponent,
     SidebarComponent,
-    // TableComponent,
-    // NgTableComponent, NgTableFilteringDirective, NgTablePagingDirective, NgTableSortingDirective,
+    TableComponent,
     TextareaComponent,
     TextboxComponent, 
     TextEditorComponent,
@@ -82,8 +81,7 @@ const appRoutes: Routes = [
     RadioButtonComponent,
     HighlightPipe, OffClickDirective, SelectComponent,
     SidebarComponent,
-    // TableComponent,
-    // NgTableComponent, NgTableFilteringDirective, NgTablePagingDirective, NgTableSortingDirective,
+    TableComponent,
     TextareaComponent,
     TextboxComponent, 
     TextEditorComponent,
