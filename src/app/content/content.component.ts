@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 // **popup*
 import { ViewContainerRef, ViewEncapsulation } from '@angular/core';
-import { Overlay } from 'angular2-modal';
+// import { Overlay } from 'angular2-modal';
 // import { Modal } from 'angular2-modal-bootstrap';
 
 // import { Directory } from 'go-tree/directory'; //**tree*

@@ -13,7 +13,10 @@
   },
   "exclude": [
     "**/*.spec.ts",
-    "go-module/**/*.ts",
-    "dist/**/*.ts"
+    "app/content",
+    "app/header",
+    "app/sidebar-child",
+    "go-module",
+    "dist"
   ]
 }

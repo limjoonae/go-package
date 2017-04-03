@@ -1,0 +1,17 @@
+git remote add origin git@10.182.247.74:go-webframework/go-auto-complete.git
+git remote add origin git@10.182.247.74:go-webframework/go-badge.git
+git remote add origin git@10.182.247.74:go-webframework/go-button.git
+git remote add origin git@10.182.247.74:go-webframework/go-checkbox.git
+git remote add origin git@10.182.247.74:go-webframework/go-directive.git
+git remote add origin git@10.182.247.74:go-webframework/go-fonts.git
+git remote add origin git@10.182.247.74:go-webframework/go-image-gallery.git
+git remote add origin git@10.182.247.74:go-webframework/go-label.git
+git remote add origin git@10.182.247.74:go-webframework/go-progressbar.git
+git remote add origin git@10.182.247.74:go-webframework/go-pulldown-menu.git
+git remote add origin git@10.182.247.74:go-webframework/go-radiobutton.git
+git remote add origin git@10.182.247.74:go-webframework/go-service.git
+git remote add origin git@10.182.247.74:go-webframework/go-sidebar.git
+git remote add origin git@10.182.247.74:go-webframework/go-table.git
+git remote add origin git@10.182.247.74:go-webframework/go-textarea.git
+git remote add origin git@10.182.247.74:go-webframework/go-textbox.git
+git remote add origin git@10.182.247.74:go-webframework/go-texteditor.git

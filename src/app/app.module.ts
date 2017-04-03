@@ -8,13 +8,14 @@ import { SelectModule } from 'ng2-select';
 // import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 
 import { AppComponent }  from './app.component';
-import { HeaderComponent }  from './header/header.component';
-import { ContentComponent }  from './content/content.component';
-import { SidebarChild }  from './sidebar-child/sidebar-child';
-import { GoModule }  from 'go-module';
+import { SidebarDocument } from '../go-module/component/go-sidebar/src/app/sidebar/doc/sidebar.document';
+// import { HeaderComponent }  from './header/header.component';
+// import { ContentComponent }  from './content/content.component';
+// import { SidebarChild }  from './sidebar-child/sidebar-child';
+// import { GoModule }  from 'go-module';
 
 const appRoutes: Routes = [
-{ path: '', component: ContentComponent},
+{ path: '', component: SidebarDocument},
 ]
 
 @NgModule({
@@ -25,14 +26,14 @@ const appRoutes: Routes = [
     SelectModule,
     // ImageGalleryModule,
     // Ng2AutoCompleteModule,
-    GoModule.forRoot(),
-    RouterModule.forRoot(appRoutes, {useHash: true}), 
+    // GoModule.forRoot(),
+    // RouterModule.forRoot(appRoutes, {useHash: true}), 
   ],
   declarations: [ 
     AppComponent,
-    HeaderComponent,
-    ContentComponent, 
-    SidebarChild
+    // HeaderComponent,
+    // ContentComponent, 
+    // SidebarChild
   ],
   bootstrap:    [ AppComponent ]
 })
