@@ -14,6 +14,7 @@ Webpack Environment คือโปรเจคสำหรับการแพ
 - Sidebar
 - Textarea
 - Textbox
+- Texteditor
 - Upload
 
 #### External Library

@@ -34,7 +34,7 @@ import { TransformService } from './component/go-textbox/src/app/go-textbox/comp
 import { ValidationService } from './component/go-textbox/src/app/go-textbox/component/validation.service';
 import { TextboxComponent } from './component/go-textbox/src/app/go-textbox/component/textbox.component';
 
-// import { TextEditorComponent } from './component/go-texteditor/src/app/go-texteditor/component/texteditor.component';
+import { TextEditorComponent } from './component/go-texteditor/src/app/go-texteditor/component/texteditor.component';
 import { UploadComponent } from './component/go-upload/src/app/go-upload/component/upload.component';
 
 const appRoutes: Routes = [
@@ -67,7 +67,7 @@ const appRoutes: Routes = [
     // NgTableComponent, NgTableFilteringDirective, NgTablePagingDirective, NgTableSortingDirective,
     TextareaComponent,
     TextboxComponent, 
-    // TextEditorComponent,
+    TextEditorComponent,
     UploadComponent,
   ],
   exports: [
@@ -86,7 +86,7 @@ const appRoutes: Routes = [
     // NgTableComponent, NgTableFilteringDirective, NgTablePagingDirective, NgTableSortingDirective,
     TextareaComponent,
     TextboxComponent, 
-    // TextEditorComponent,
+    TextEditorComponent,
     UploadComponent,
   ]
 })

@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 263);
+/******/ 	return __webpack_require__(__webpack_require__.s = 265);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -634,7 +634,7 @@ exports.Ng2AutoComplete = Ng2AutoComplete;
 
 /***/ }),
 
-/***/ 241:
+/***/ 242:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -648,7 +648,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = __webpack_require__(1);
 var common_1 = __webpack_require__(2);
 var forms_1 = __webpack_require__(3);
-var ng2_auto_complete_1 = __webpack_require__(267);
+var ng2_auto_complete_1 = __webpack_require__(269);
 // import { } from 'primeng/primeng';
 // import { HighlightPipe, OffClickDirective, SelectComponent } from 'ng2-select';
 // import { NgTranscludeDirective, TabDirective, TabsetComponent, TabHeadingDirective, TabsetConfig } from './component/go-ng2-bootstrap/node_modules/ng2-bootstrap/src/tabs/index';
@@ -688,25 +688,25 @@ var LibModule_1;
 
 /***/ }),
 
-/***/ 263:
+/***/ 265:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var lib_module_1 = __webpack_require__(241);
+var lib_module_1 = __webpack_require__(242);
 exports.LibModule = lib_module_1.LibModule;
 
 
 /***/ }),
 
-/***/ 267:
+/***/ 269:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var ng2_auto_complete_1 = __webpack_require__(21);
 exports.Ng2AutoComplete = ng2_auto_complete_1.Ng2AutoComplete;
-var ng2_auto_complete_module_1 = __webpack_require__(268);
+var ng2_auto_complete_module_1 = __webpack_require__(270);
 exports.Ng2AutoCompleteModule = ng2_auto_complete_module_1.Ng2AutoCompleteModule;
 var ng2_auto_complete_component_1 = __webpack_require__(20);
 exports.Ng2AutoCompleteComponent = ng2_auto_complete_component_1.Ng2AutoCompleteComponent;
@@ -716,7 +716,7 @@ exports.Ng2AutoCompleteDirective = ng2_auto_complete_directive_1.Ng2AutoComplete
 
 /***/ }),
 
-/***/ 268:
+/***/ 270:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
