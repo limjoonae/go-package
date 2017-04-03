@@ -9,10 +9,11 @@
     "lib": [ "es2015", "dom" ],
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
-    "types": [ "node" ]
+    "types": [ "node" ],
+    "typeRoots": [ "../../node_modules/@types" ]
   },
   "exclude": [
     "**/*.spec.ts",
-    "./component/**/*.ts"
+    "component"
   ]
 }
