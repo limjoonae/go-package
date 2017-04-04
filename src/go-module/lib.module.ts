@@ -9,6 +9,7 @@ import { DataTable, ColumnHeaders, ColumnFooters, TableBody, ScrollableView, DTC
 import { Galleria } from 'primeng/primeng';
 import { TabViewNav, TabPanel, TabView } from 'primeng/primeng';
 import { Tooltip } from 'primeng/primeng';
+import { Tree, UITreeNode, TreeNodeTemplateLoader } from 'primeng/primeng';
 //primeng shared module
 import { Header,Footer,Column,TemplateWrapper,ColumnHeaderTemplateLoader,ColumnBodyTemplateLoader,ColumnFooterTemplateLoader,ColumnFilterTemplateLoader,PrimeTemplate,TemplateLoader,Row,HeaderColumnGroup,FooterColumnGroup,ColumnEditorTemplateLoader } from 'primeng/primeng';
 
@@ -27,6 +28,7 @@ import { Header,Footer,Column,TemplateWrapper,ColumnHeaderTemplateLoader,ColumnB
     Galleria,
     TabViewNav, TabPanel, TabView,
     Tooltip,
+    Tree, UITreeNode, TreeNodeTemplateLoader,
     //primeng shared module
     Header,Footer,Column,TemplateWrapper,ColumnHeaderTemplateLoader,ColumnBodyTemplateLoader,ColumnFooterTemplateLoader,ColumnFilterTemplateLoader,PrimeTemplate,TemplateLoader,Row,HeaderColumnGroup,FooterColumnGroup,ColumnEditorTemplateLoader
     ],
@@ -38,6 +40,7 @@ import { Header,Footer,Column,TemplateWrapper,ColumnHeaderTemplateLoader,ColumnB
     Galleria,
     TabViewNav, TabPanel, TabView,
     Tooltip,
+    Tree,
     //primeng shared module
     Header,Footer,Column,TemplateWrapper,ColumnHeaderTemplateLoader,ColumnBodyTemplateLoader,ColumnFooterTemplateLoader,ColumnFilterTemplateLoader,PrimeTemplate,TemplateLoader,Row,HeaderColumnGroup,FooterColumnGroup,ColumnEditorTemplateLoader
     ],
