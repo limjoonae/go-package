@@ -26,6 +26,7 @@ Webpack Environment คือโปรเจคสำหรับการแพ
 - Dialog (Primeng)
 - Galleria (Primeng)
 - Panel (Primeng)
+- Step (Primeng)
 - TabView (Primeng)
 - Tooltip (Primeng)
 - Tree (Primeng)
