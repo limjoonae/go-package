@@ -27,3 +27,4 @@ Webpack Environment คือโปรเจคสำหรับการแพ
 - Galleria (Primeng)
 - Panel (Primeng)
 - TabView (Primeng)
+- Tooltip (Primeng)
