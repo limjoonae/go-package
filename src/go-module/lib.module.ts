@@ -7,6 +7,7 @@ import { Accordion, AccordionTab } from 'primeng/primeng';
 import { DataGrid,  Panel, Dialog, Paginator } from 'primeng/primeng';
 import { DataTable, ColumnHeaders, ColumnFooters, TableBody, ScrollableView, DTCheckbox, DTRadioButton, RowExpansionLoader } from 'primeng/primeng';
 import { Galleria } from 'primeng/primeng';
+import { TabViewNav, TabPanel, TabView } from 'primeng/primeng';
 //primeng shared module
 import { Header,Footer,Column,TemplateWrapper,ColumnHeaderTemplateLoader,ColumnBodyTemplateLoader,ColumnFooterTemplateLoader,ColumnFilterTemplateLoader,PrimeTemplate,TemplateLoader,Row,HeaderColumnGroup,FooterColumnGroup,ColumnEditorTemplateLoader } from 'primeng/primeng';
 
@@ -23,6 +24,7 @@ import { Header,Footer,Column,TemplateWrapper,ColumnHeaderTemplateLoader,ColumnB
     DataGrid, Panel, Dialog, Paginator,
     DataTable, ColumnHeaders, ColumnFooters, TableBody, ScrollableView, DTCheckbox, DTRadioButton, RowExpansionLoader,
     Galleria,
+    TabViewNav, TabPanel, TabView,
     //primeng shared module
     Header,Footer,Column,TemplateWrapper,ColumnHeaderTemplateLoader,ColumnBodyTemplateLoader,ColumnFooterTemplateLoader,ColumnFilterTemplateLoader,PrimeTemplate,TemplateLoader,Row,HeaderColumnGroup,FooterColumnGroup,ColumnEditorTemplateLoader
     ],
@@ -32,7 +34,7 @@ import { Header,Footer,Column,TemplateWrapper,ColumnHeaderTemplateLoader,ColumnB
     DataGrid,  Panel, Dialog, Paginator,
     DataTable, ColumnHeaders, ColumnFooters, TableBody, ScrollableView, DTCheckbox, DTRadioButton, RowExpansionLoader,
     Galleria,
-    //primeng shared module
+    TabViewNav, TabPanel, TabView,
     //primeng shared module
     Header,Footer,Column,TemplateWrapper,ColumnHeaderTemplateLoader,ColumnBodyTemplateLoader,ColumnFooterTemplateLoader,ColumnFilterTemplateLoader,PrimeTemplate,TemplateLoader,Row,HeaderColumnGroup,FooterColumnGroup,ColumnEditorTemplateLoader
     ],
