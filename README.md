@@ -21,3 +21,5 @@ Webpack Environment คือโปรเจคสำหรับการแพ
 #### External Library
 - Auto Complete (ng2-auto-complete)
 - Accordion (Primeng)
+- Datagrid (Primeng)
+- Datatable (Primeng)
