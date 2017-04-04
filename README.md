@@ -24,4 +24,5 @@ Webpack Environment คือโปรเจคสำหรับการแพ
 - Datagrid (Primeng)
 - Datatable (Primeng)
 - Dialog (Primeng)
+- Galleria (Primeng)
 - Panel (Primeng)
