@@ -19,4 +19,5 @@ Webpack Environment คือโปรเจคสำหรับการแพ
 - Upload
 
 #### External Library
-- Auto Complete
+- Auto Complete (ng2-auto-complete)
+- Accordion (Primeng)

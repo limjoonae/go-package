@@ -2,30 +2,23 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Ng2AutoCompleteComponent, Ng2AutoCompleteDirective, Ng2AutoComplete } from 'ng2-auto-complete';
-// import { } from 'primeng/primeng';
-// import { HighlightPipe, OffClickDirective, SelectComponent } from 'ng2-select';
-// import { NgTranscludeDirective, TabDirective, TabsetComponent, TabHeadingDirective, TabsetConfig } from './component/go-ng2-bootstrap/node_modules/ng2-bootstrap/src/tabs/index';
-// import { TooltipContainerComponent, TooltipDirective, TooltipConfig } from './component/go-ng2-bootstrap/node_modules/ng2-bootstrap/src/tooltip/index';
-// import { ComponentLoaderFactory } from './component/go-ng2-bootstrap/node_modules/ng2-bootstrap/src/component-loader/index';
-// import { PositioningService } from './component/go-ng2-bootstrap/node_modules/ng2-bootstrap/src/positioning/index';
+import { Accordion, AccordionTab } from 'primeng/primeng';
 
 @NgModule({
-  imports: [ CommonModule, FormsModule ],
+  imports: [ 
+    CommonModule, 
+    FormsModule,
+  ],
   declarations: [ 
     Ng2AutoCompleteComponent, Ng2AutoCompleteDirective,
-    // HighlightPipe, OffClickDirective, SelectComponent,
-    // NgTranscludeDirective, TabDirective, TabsetComponent, TabHeadingDirective,
-    // TooltipContainerComponent, TooltipDirective,
+    Accordion, AccordionTab,
     ],
   exports: [ 
     Ng2AutoCompleteComponent, Ng2AutoCompleteDirective,
-    // HighlightPipe, OffClickDirective, SelectComponent,
-    // NgTranscludeDirective, TabDirective, TabsetComponent, TabHeadingDirective,
-    // TooltipDirective,
+    Accordion, AccordionTab,
     ],
   entryComponents: [ 
     Ng2AutoCompleteComponent, 
-    // TooltipContainerComponent 
   ],
 })
 export class LibModule {
@@ -34,8 +27,6 @@ export class LibModule {
       ngModule: LibModule,
       providers: [ 
         Ng2AutoComplete, 
-        // TabsetConfig, 
-        // TooltipConfig, ComponentLoaderFactory, PositioningService
       ]
     }
   }
