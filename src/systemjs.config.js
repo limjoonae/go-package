@@ -65,7 +65,6 @@
           defaultExtension: 'js',
        },
        'primeng': {
-        // main: './primeng.js',
         defaultExtension: 'js'
       },
       'angular2-image-popup': {
