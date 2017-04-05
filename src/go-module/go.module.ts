@@ -40,6 +40,9 @@ import { UploadComponent } from './component/go-upload/src/app/go-upload/compone
 import { DateTimePickerComponent } from './component/go-datetimepicker/src/app/datetimepicker/component/datetimepicker.component';
 import { CALENDAR_VALUE_ACCESSOR, CALENDAR_VALIDATOR, LocaleSettings, Calendar, ButtonModule } from 'primeng/primeng';
 
+import { ChartComponent } from './component/go-chart/src/app/charts/component/chart.component';
+import { ChartsModule } from 'ng2-charts';
+
 const appRoutes: Routes = [
 ]
 
@@ -54,6 +57,7 @@ const appRoutes: Routes = [
     Ng2TableModule,
     SidebarModule,
     ButtonModule,
+    ChartsModule,
   ],
   declarations: [
     BadgeComponent,
@@ -74,6 +78,7 @@ const appRoutes: Routes = [
     UploadComponent,
     DateTimePickerComponent,
     Calendar,
+    ChartComponent,
   ],
   exports: [
     BadgeComponent,
@@ -94,6 +99,7 @@ const appRoutes: Routes = [
     UploadComponent,
     DateTimePickerComponent,
     Calendar,
+    ChartComponent,
   ]
 })
 export class GoModule {

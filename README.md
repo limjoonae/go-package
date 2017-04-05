@@ -5,6 +5,7 @@ Webpack Environment คือโปรเจคสำหรับการแพ
 #### New/Modified Component List
 - Badge
 - Button
+- Chart
 - Checkbox
 - Datetimepicker
 - Image Gallery
