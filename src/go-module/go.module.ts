@@ -37,6 +37,9 @@ import { TextboxComponent } from './component/go-textbox/src/app/go-textbox/comp
 import { TextEditorComponent } from './component/go-texteditor/src/app/go-texteditor/component/texteditor.component';
 import { UploadComponent } from './component/go-upload/src/app/go-upload/component/upload.component';
 
+import { DateTimePickerComponent } from './component/go-datetimepicker/src/app/datetimepicker/component/datetimepicker.component';
+import { CALENDAR_VALUE_ACCESSOR, CALENDAR_VALIDATOR, LocaleSettings, Calendar, ButtonModule } from 'primeng/primeng';
+
 const appRoutes: Routes = [
 ]
 
@@ -50,6 +53,7 @@ const appRoutes: Routes = [
     PaginationModule.forRoot(),
     Ng2TableModule,
     SidebarModule,
+    ButtonModule,
   ],
   declarations: [
     BadgeComponent,
@@ -68,6 +72,8 @@ const appRoutes: Routes = [
     TextboxComponent, 
     TextEditorComponent,
     UploadComponent,
+    DateTimePickerComponent,
+    Calendar,
   ],
   exports: [
     BadgeComponent,
@@ -86,6 +92,8 @@ const appRoutes: Routes = [
     TextboxComponent, 
     TextEditorComponent,
     UploadComponent,
+    DateTimePickerComponent,
+    Calendar,
   ]
 })
 export class GoModule {
