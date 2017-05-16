@@ -32,7 +32,7 @@ import { TextareaComponent } from './component/go-textarea/src/app/go-textarea/c
 import { TooltipModule } from 'ng2-bootstrap';
 import { TransformService } from './component/go-textbox/src/app/go-textbox/component/transform.service';
 import { ValidationService } from './component/go-textbox/src/app/go-textbox/component/validation.service';
-import { TextboxComponent } from './component/go-textbox/src/app/go-textbox/component/textbox.component';
+import { TextboxComponent, TEXTBOX_VALUE_ACCESSOR } from './component/go-textbox/src/app/go-textbox/component/textbox.component';
 
 import { TextEditorComponent } from './component/go-texteditor/src/app/go-texteditor/component/texteditor.component';
 import { UploadComponent } from './component/go-upload/src/app/go-upload/component/upload.component';
@@ -109,6 +109,7 @@ export class GoModule {
       providers: [ 
         BootstrapClassService, CommonService, CheckDataService,
         TransformService, ValidationService, 
+        TEXTBOX_VALUE_ACCESSOR
       ]
     }
   }
