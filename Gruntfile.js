@@ -4,7 +4,8 @@ module.exports = function(grunt) {
         uglify: {
             my_target: {
                 files: {
-                    'dist/gomodule.umd.js': ['dist/gomodule.js']
+                    'dist/gomodule.umd.js': ['dist/gomodule.js'],
+                    'dist/libmodule.umd.js': ['dist/libmodule.js'],
                 }
             }
         }
