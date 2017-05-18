@@ -1,0 +1,3 @@
+[submodule "src/go-module/component/go-checkbox"]
+	path = src/go-module/component/go-checkbox
+	url = git@10.182.247.74:go-webframework/go-checkbox.git
