@@ -7,3 +7,6 @@
 [submodule "src/go-module/component/go-radiobutton"]
 	path = src/go-module/component/go-radiobutton
 	url = git@10.182.247.74:go-webframework/go-radiobutton.git
+[submodule "src/go-module/component/go-auto-complete"]
+	path = src/go-module/component/go-auto-complete
+	url = git@10.182.247.74:go-webframework/go-auto-complete.git
