@@ -19,3 +19,6 @@
 [submodule "src/go-module/component/go-datetimepicker"]
 	path = src/go-module/component/go-datetimepicker
 	url = git@10.182.247.74:go-webframework/go-datetimepicker.git
+[submodule "src/go-module/component/go-directive"]
+	path = src/go-module/component/go-directive
+	url = git@10.182.247.74:go-webframework/go-directive.git
