@@ -31,3 +31,6 @@
 [submodule "src/go-module/component/go-progressbar"]
 	path = src/go-module/component/go-progressbar
 	url = git@10.182.247.74:go-webframework/go-progressbar.git
+[submodule "src/go-module/component/go-pulldown-menu"]
+	path = src/go-module/component/go-pulldown-menu
+	url = git@10.182.247.74:go-webframework/go-pulldown-menu.git
