@@ -28,3 +28,6 @@
 [submodule "src/go-module/component/go-label"]
 	path = src/go-module/component/go-label
 	url = git@10.182.247.74:go-webframework/go-label.git
+[submodule "src/go-module/component/go-progressbar"]
+	path = src/go-module/component/go-progressbar
+	url = git@10.182.247.74:go-webframework/go-progressbar.git
