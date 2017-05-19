@@ -10,3 +10,6 @@
 [submodule "src/go-module/component/go-auto-complete"]
 	path = src/go-module/component/go-auto-complete
 	url = git@10.182.247.74:go-webframework/go-auto-complete.git
+[submodule "src/go-module/component/go-badge"]
+	path = src/go-module/component/go-badge
+	url = git@10.182.247.74:go-webframework/go-badge.git
