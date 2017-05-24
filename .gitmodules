@@ -68,3 +68,24 @@
 	path = src/go-module/component/go-datatable
 	url = git@10.182.247.74:go-webframework/go-datatable.git
 
+[submodule "src/go-module/component/go-dialog"]
+	path = src/go-module/component/go-dialog
+	url = git@10.182.247.74:go-webframework/go-dialog.git
+[submodule "src/go-module/component/go-galleria"]
+	path = src/go-module/component/go-galleria
+	url = git@10.182.247.74:go-webframework/go-galleria.git
+[submodule "src/go-module/component/go-panel"]
+	path = src/go-module/component/go-panel
+	url = git@10.182.247.74:go-webframework/go-panel.git
+[submodule "src/go-module/component/go-step"]
+	path = src/go-module/component/go-step
+	url = git@10.182.247.74:go-webframework/go-step.git
+[submodule "src/go-module/component/go-tab"]
+	path = src/go-module/component/go-tab
+	url = git@10.182.247.74:go-webframework/go-tab.git
+[submodule "src/go-module/component/go-tooltip"]
+	path = src/go-module/component/go-tooltip
+	url = git@10.182.247.74:go-webframework/go-tooltip.git
+[submodule "src/go-module/component/go-tree"]
+	path = src/go-module/component/go-tree
+	url = git@10.182.247.74:go-webframework/go-tree.git
