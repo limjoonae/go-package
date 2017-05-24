@@ -58,3 +58,6 @@
 [submodule "src/go-module/component/go-upload"]
 	path = src/go-module/component/go-upload
 	url = git@10.182.247.74:go-webframework/go-upload.git
+[submodule "src/go-module/component/go-accordion"]
+	path = src/go-module/component/go-accordion
+	url = git@10.182.247.74:go-webframework/go-accordion.git
