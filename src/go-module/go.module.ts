@@ -10,6 +10,7 @@ import { BadgeComponent } from './component/go-badge/src/app/go-badge/component/
 import { ButtonComponent } from './component/go-button/src/app/go-button/component/button.component';
 
 import { CheckboxComponent } from './component/go-checkbox/src/app/go-checkbox/component/checkbox.component';
+import { CustomIsCheckDirective } from './component/go-checkbox/src/app/go-checkbox/component/index';
 
 import { ImageModal }  from './component/go-image-gallery/node_modules/angular2-image-popup/directives/angular2-image-popup/image-modal-popup';
 import { ImageGalleryComponent } from './component/go-image-gallery/src/app/go-image-gallery/component/image-gallery.component';
@@ -37,10 +38,10 @@ import { TextboxComponent, TEXTBOX_VALUE_ACCESSOR } from './component/go-textbox
 import { TextEditorComponent } from './component/go-texteditor/src/app/go-texteditor/component/texteditor.component';
 import { UploadComponent } from './component/go-upload/src/app/go-upload/component/upload.component';
 
-import { DateTimePickerComponent } from './component/go-datetimepicker/src/app/datetimepicker/component/datetimepicker.component';
+import { DateTimePickerComponent } from './component/go-datetimepicker/src/app/go-datetimepicker/component/datetimepicker.component';
 import { CALENDAR_VALUE_ACCESSOR, CALENDAR_VALIDATOR, LocaleSettings, Calendar, ButtonModule } from 'primeng/primeng';
 
-import { ChartComponent } from './component/go-chart/src/app/charts/component/chart.component';
+import { ChartComponent } from './component/go-chart/src/app/go-chart/component/chart.component';
 import { ChartsModule } from 'ng2-charts';
 
 const appRoutes: Routes = [
@@ -63,6 +64,7 @@ const appRoutes: Routes = [
     BadgeComponent,
     ButtonComponent,
     CheckboxComponent,
+    CustomIsCheckDirective,
     CustomDisabledDirective, CustomReadonlyDirective, CustomMaxlengthDirective, CustomCheckDirective,
     ImageGalleryComponent, ImageModal,
     LabelComponent,
