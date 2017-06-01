@@ -3,8 +3,8 @@ git clone --recursive git@10.182.247.74:go-webframework/go-webpack.git
 
 
 ### Update repository
-git submodule update --init --recursive
-git submodule update --remote --merge
+ - git submodule update --init --recursive
+ - git submodule update --remote --merge
 
 -------------------------------------------------------------------------------------
 
