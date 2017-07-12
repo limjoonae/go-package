@@ -8500,7 +8500,7 @@ var NgTableComponent = (function () {
         this.cellClicked.emit({ row: row, column: column });
     };
     // Ported from jquery-ui datepicker formatDate    
-    NgTableComponent.prototype.formatDate = function (date, format) {
+    NgTableComponent.prototype.formatDate = function (date, format, yearAdd) {
         if (!date) {
             return "";
         }
@@ -8542,6 +8542,8 @@ var NgTableComponent = (function () {
                             break;
                         case "y":
                             var _year = date.getFullYear();
+                            if (yearAdd)
+                                _year += yearAdd;
                             output += (lookAhead("y") ? _year :
                                 (_year % 100 < 10 ? "0" : "") + _year % 100);
                             break;
@@ -8585,7 +8587,6 @@ __decorate([
 ], NgTableComponent.prototype, "columns", null);
 NgTableComponent = __decorate([
     core_1.Component({
-        // moduleId: module.id,
         selector: 'ng-table',
         styles: ["\n    .table-fixed {\n      'table-layout':'fixed',\n       'word-wrap': 'break-word'\n      }\n  "],
         template: __webpack_require__(414)
@@ -27247,6 +27248,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(0);
+var MIN_LENGTH = 8;
+var MAX_LENGTH = 20;
 var ValidationService = (function () {
     function ValidationService() {
     }
@@ -47404,11 +47407,28 @@ var TableComponent = (function () {
     TableComponent.prototype.changeFilter = function (data, config) {
         var _this = this;
         var filteredData = data;
+        var dateString;
+        var DateFormat;
+        //console.log('data: ',data);
+        //console.log('columns: ',this.columns);
+        /* for(let i = 0; i < this.columns.length;i++){
+         if(this.columns[i] instanceof Object) dateFormat = this.columns[i].dateFormat;
+         //console.log(dateFormat);
+     }
+         */
         this.columns.forEach(function (column) {
             if (column.filtering) {
-                column.filtering.filterString = _this.escapeSpecialCharacters(column.filtering.filterString);
+                //console.log(column.filtering);
+                //column.filtering.filterString = this.escapeSpecialCharacters(column.filtering.filterString);
                 filteredData = filteredData.filter(function (item) {
-                    return String(item[column.name]).match(column.filtering.filterString);
+                    var dump;
+                    if (item[column.name] instanceof Date) {
+                        DateFormat = column.dateFormat;
+                        dump = _this.formatDate(item[column.name], DateFormat);
+                    }
+                    else
+                        dump = item[column.name];
+                    return String(dump.match(column.filtering.filterString));
                 });
             }
         });
@@ -47423,8 +47443,15 @@ var TableComponent = (function () {
         var tempArray = [];
         filteredData.forEach(function (item) {
             var flag = false;
+            var dump;
             _this.columns.forEach(function (column) {
-                if (item[column.name].toString().match(_this.config.filtering.filterString)) {
+                if (item[column.name] instanceof Date) {
+                    DateFormat = column.dateFormat;
+                    dump = _this.formatDate(item[column.name], DateFormat);
+                }
+                else
+                    dump = item[column.name];
+                if (dump.match(_this.config.filtering.filterString)) {
                     flag = true;
                 }
             });
@@ -47460,6 +47487,65 @@ var TableComponent = (function () {
     };
     TableComponent.prototype.onCellClick = function (event) {
         this.onCellClicked.emit(event);
+    };
+    TableComponent.prototype.formatDate = function (date, format) {
+        if (!date) {
+            return "";
+        }
+        var iFormat, lookAhead = function (match) {
+            var matches = (iFormat + 1 < format.length && format.charAt(iFormat + 1) === match);
+            if (matches) {
+                iFormat++;
+            }
+            return matches;
+        }, formatNumber = function (match, value, len) {
+            var num = "" + value;
+            if (lookAhead(match)) {
+                while (num.length < len) {
+                    num = "0" + num;
+                }
+            }
+            return num;
+        }, formatName = function (match, value, shortNames, longNames) {
+            return (lookAhead(match) ? longNames[value] : shortNames[value]);
+        }, output = "", literal = false;
+        if (date) {
+            for (iFormat = 0; iFormat < format.length; iFormat++) {
+                if (literal) {
+                    if (format.charAt(iFormat) === "'" && !lookAhead("'"))
+                        literal = false;
+                    else
+                        output += format.charAt(iFormat);
+                }
+                else {
+                    switch (format.charAt(iFormat)) {
+                        case "d":
+                            output += formatNumber("d", date.getDate(), 2);
+                            break;
+                        case "o":
+                            output += formatNumber("o", Math.round((new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 86400000), 3);
+                            break;
+                        case "m":
+                            output += formatNumber("m", date.getMonth() + 1, 2);
+                            break;
+                        case "y":
+                            var _year = date.getFullYear();
+                            output += (lookAhead("y") ? _year :
+                                (_year % 100 < 10 ? "0" : "") + _year % 100);
+                            break;
+                        case "'":
+                            if (lookAhead("'"))
+                                output += "'";
+                            else
+                                literal = true;
+                            break;
+                        default:
+                            output += format.charAt(iFormat);
+                    }
+                }
+            }
+        }
+        return output;
     };
     return TableComponent;
 }());
@@ -47926,7 +48012,6 @@ var TextboxComponent = (function () {
         this.space = ' ';
         this.hasClass = '';
         this.hasFormControlClass = '';
-        this.ae = 1111.33;
         this.isValid = true;
         this.warningPos = 'top';
         this.isValidChange = new core_1.EventEmitter();
@@ -47941,11 +48026,12 @@ var TextboxComponent = (function () {
     };
     //// ControlValueAccessor implementation
     TextboxComponent.prototype.writeValue = function (value) {
-        // if(this.type == 'currency') {
-        //   this.value = this.getCurrencyFormat(value);
-        // } else {
-        this.value = value;
-        // }
+        if (this.type == 'currency') {
+            this.value = this.getCurrencyFormat(value);
+        }
+        else {
+            this.value = value;
+        }
         this.updateInputfield();
     };
     TextboxComponent.prototype.registerOnChange = function (fn) {
@@ -47987,8 +48073,8 @@ var TextboxComponent = (function () {
         if (val == '' && required) {
             this.setRequireBorder();
         }
-        else {
-            this.validateInput(val);
+        if (this.type == 'currency') {
+            this.validateCurrency(val);
         }
         this.focus = false;
         this.onBlur.emit(event);
@@ -53210,115 +53296,115 @@ process.umask = function() { return 0; };
 /* 414 */
 /***/ (function(module, exports) {
 
-module.exports = "<table class=\"table dataTable\" ngClass=\"{{config.className || ''}}\" role=\"grid\" style=\"width: 100%;\">\n    <thead>\n        <tr role=\"row\">\n            <th *ngFor=\"let column of columns\" [ngTableSorting]=\"config\" [column]=\"column\" (sortChanged)=\"onChangeTable($event)\" ngClass=\"{{column.className || ''}}\">\n                <div [innerHTML]=\"column.title\" [ngStyle]=\"column.width\"></div>\n            </th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr *ngIf=\"showFilterRow\">\n            <td *ngFor=\"let column of columns\">\n                <div [ngStyle]=\"column.width\">\n                    <input *ngIf=\"column.filtering\" placeholder=\"{{column.filtering.placeholder || ''}}\" [ngTableFiltering]=\"column.filtering\"\n                        class=\"form-control\" style=\"width: 100%;\" (tableChanged)=\"onChangeTable(config)\" value=\"{{column.filtering.filterString}}\"\n                    />\n                </div>\n            </td>\n        </tr>\n        <tr *ngFor=\"let row of rows\">\n            <td (click)=\"cellClick(row, column.name)\" *ngFor=\"let column of columns\">\n                <div style=\"word-wrap: break-word\" [ngStyle]=\"column.width\" [innerHtml]=\"column.dateFormat ? formatDate(row[column.name],column.dateFormat) : sanitize(getData(row, column.name))\"></div>\n            </td>\n        </tr>\n    </tbody>\n</table>"
+module.exports = "<table class=\"table dataTable\" ngClass=\"{{config.className || ''}}\" role=\"grid\" style=\"width: 100%;\">\r\n    <thead>\r\n        <tr role=\"row\">\r\n            <th *ngFor=\"let column of columns\" [ngTableSorting]=\"config\" [column]=\"column\" (sortChanged)=\"onChangeTable($event)\" ngClass=\"{{column.className || ''}}\">\r\n                <div [innerHTML]=\"column.title\" [ngStyle]=\"column.width\"></div>\r\n            </th>\r\n        </tr>\r\n    </thead>\r\n    <tbody>\r\n        <tr *ngIf=\"showFilterRow\">\r\n            <td *ngFor=\"let column of columns\">\r\n                <div [ngStyle]=\"column.width\">\r\n                    <input *ngIf=\"column.filtering\" placeholder=\"{{column.filtering.placeholder || ''}}\" [ngTableFiltering]=\"column.filtering\"\r\n                        class=\"form-control\" style=\"width: 100%;\" (tableChanged)=\"onChangeTable(config)\" value=\"{{column.filtering.filterString}}\"\r\n                    />\r\n                </div>\r\n            </td>\r\n        </tr>\r\n        <tr *ngFor=\"let row of rows\">\r\n            <td (click)=\"cellClick(row, column.name)\" *ngFor=\"let column of columns\">\r\n                <div style=\"word-wrap: break-word\" [ngStyle]=\"column.width\" [innerHtml]=\"column.dateFormat ? formatDate(row[column.name],column.dateFormat,column.yearAdditional) : sanitize(getData(row, column.name))\"></div>\r\n            </td>\r\n        </tr>\r\n    </tbody>\r\n</table>"
 
 /***/ }),
 /* 415 */
 /***/ (function(module, exports) {
 
-module.exports = "<!--type == 'badge-link'-->\n<a *ngIf=\"type == 'badge-link'\" href=\"#\">{{labelText}} <span class=\"{{badgeColorClass}} {{badgeStyle}}\">{{badgeData}}</span></a>\n<!--type == 'badge-button'-->\n<button *ngIf=\"type == 'badge-button'\" class=\"btn {{buttonColorClass}} {{buttonSizeClass}}\">{{labelText}} <span class=\"{{badgeColorClass}} {{badgeStyle}}\">{{badgeData}}</span></button>\n<!--type == 'badge'-->\n<span *ngIf=\"type == 'badge'\" class=\"{{badgeColorClass}} {{badgeStyle}}\">{{badgeData}}</span>"
+module.exports = "<!--type == 'badge-link'-->\r\n<a *ngIf=\"type == 'badge-link'\" href=\"#\">{{labelText}} <span class=\"{{badgeColorClass}} {{badgeStyle}}\">{{badgeData}}</span></a>\r\n<!--type == 'badge-button'-->\r\n<button *ngIf=\"type == 'badge-button'\" class=\"btn {{buttonColorClass}} {{buttonSizeClass}}\">{{labelText}} <span class=\"{{badgeColorClass}} {{badgeStyle}}\">{{badgeData}}</span></button>\r\n<!--type == 'badge'-->\r\n<span *ngIf=\"type == 'badge'\" class=\"{{badgeColorClass}} {{badgeStyle}}\">{{badgeData}}</span>"
 
 /***/ }),
 /* 416 */
 /***/ (function(module, exports) {
 
-module.exports = "<button *ngIf=\"iconPos != 'right'\" type=\"button\" [id]=\"id\" [name]=\"name\" class=\"{{buttonStyleClass}}\" [customDisabled]=\"disable\">\n    <i class=\"{{iconStyleClass}}\"></i> {{label}}</button>\n<button *ngIf=\"iconPos == 'right'\" type=\"button\" [id]=\"id\" [name]=\"name\" class=\"{{buttonStyleClass}}\" [customDisabled]=\"disable\">\n    {{label}} <i class=\"{{iconStyleClass}}\"></i></button>\n"
+module.exports = "<button *ngIf=\"iconPos != 'right'\" type=\"button\" [id]=\"id\" [name]=\"name\" class=\"{{buttonStyleClass}}\" [customDisabled]=\"disable\">\r\n    <i class=\"{{iconStyleClass}}\"></i> {{label}}</button>\r\n<button *ngIf=\"iconPos == 'right'\" type=\"button\" [id]=\"id\" [name]=\"name\" class=\"{{buttonStyleClass}}\" [customDisabled]=\"disable\">\r\n    {{label}} <i class=\"{{iconStyleClass}}\"></i></button>\r\n"
 
 /***/ }),
 /* 417 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-md-12\">\n\t<canvas baseChart [chartType]=\"chartType\" [datasets]=\"chartData\" [labels]=\"chartLabel\" [options]=\"chartOption\" [colors]=\"chartColor\"\n\t\t[legend]=\"showLegend\" (chartHover)=\"chartHovered($event)\" (chartClick)=\"chartClicked($event)\"></canvas>\n</div>"
+module.exports = "<div class=\"col-md-12\">\r\n\t<canvas baseChart [chartType]=\"chartType\" [datasets]=\"chartData\" [labels]=\"chartLabel\" [options]=\"chartOption\" [colors]=\"chartColor\"\r\n\t\t[legend]=\"showLegend\" (chartHover)=\"chartHovered($event)\" (chartClick)=\"chartClicked($event)\"></canvas>\r\n</div>"
 
 /***/ }),
 /* 418 */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div  *ngIf=\"isCompletely\" >\n  <div *ngIf=\"type == 'inline'\" class=\"has-{{colorTheme}} \">\n    <go-label *ngIf=\"label\" [label]=\"label\" [require]=\"require\"></go-label>\n      <label *ngFor=\"let d of data\"> \n        <label *ngIf=\"d.disable == true\" class=\"form-check-label\" >\n          <input type=\"checkbox\"\n                  [id]=\"id\"\n                  [name]=\"name\"\n                  [value]=\"d.value\"\n                  [isCheckCB]=\"d.checked\"\n                  (change)=\"onCheckboxChange(d,$event)\"\n                  disabled>\n          <input class=\"custom-control-input\" disabled>\n          <span class=\"custom-control-description\">{{d.label}}</span>\n        </label>\n        <label *ngIf=\"d.disable != true\" class=\"form-check-label\"  >\n          <input type=\"checkbox\" \n                  [id]=\"id\" \n                  [name]=\"name\"\n                  [value]=\"d.value\"\n                  [isCheckCB]=\"d.checked\"\n                  (change)=\"onCheckboxChange(d,$event)\"\n                  > {{d.label}}\n        </label>\n      </label>\n  </div>\n\n  <div *ngIf=\"type == 'block'\">\n    <go-label *ngIf=\"label\" [label]=\"label\" [require]=\"require\"></go-label>\n    <div class=\"form-check has-{{colorTheme}}\" *ngFor=\"let d of data\">\n      <label *ngIf=\"d.disable == true\" class=\"form-check-label\" >\n          <input type=\"checkbox\"\n                  [id]=\"id\"\n                  [name]=\"name\"\n                  [value]=\"d.value\"\n                  [isCheckCB]=\"d.checked\"\n                  (change)=\"onCheckboxChange(d,$event)\"\n                  disabled>\n          <input class=\"custom-control-input\" disabled>\n          <span class=\"custom-control-description\">{{d.label}}</span>\n        </label>\n\n      <label *ngIf=\"d.disable != true\" class=\"form-check-label\">\n        <input type=\"checkbox\"  \n              [id]=\"id\" \n              [name]=\"name\"\n              [value]=\"d.value\"\n              [isCheckCB]=\"d.checked\"\n              (change)=\"onCheckboxChange(d,$event)\"\n              > {{d.label}}\n      </label>\n    </div>\n  </div>\n  <div *ngIf=\"type == 'column'\">\n    <go-label *ngIf=\"label\" [label]=\"label\" [require]=\"require\"></go-label>\n    <!--<div class=\"container-fluid\" >-->\n      <div class=\"row\" *ngFor=\"let r of numbersOfRow; let i = index\">\n        <div  class=\"col-sm-{{colStyle}} form-check has-{{colorTheme}}\" *ngFor=\"let c of getNumbersOfCol(i);\" >\n          <!--<div class=\"form-check\">-->\n           <label  *ngIf=\"c.disable == true\" class=\"form-check-inline   \"  >\n            <input type=\"checkbox\"\n                    [id]=\"id\"\n                    [name]=\"name\"\n                    [value]=\"c.value\"\n                    [isCheckCB]=\"c.checked\"\n                    (change)=\"onCheckboxChange(c,$event)\"\n                    disabled>\n            <input class=\"custom-control-input\" disabled>\n            <span class=\"custom-control-description\">{{c.label}}</span>\n          </label>\n\n       \n          <label *ngIf=\"c.disable != true\" class=\"form-check-inline \" >\n            <input type=\"checkbox\"  \n                  [id]=\"id\" \n                  [name]=\"name\"\n                  [value]=\"c.value\"\n                  [isCheckCB]=\"c.checked\"\n                  (change)=\"onCheckboxChange(c,$event)\"\n                  > {{c.label}}\n          </label>\n          <!--</div>-->\n        </div>\n      </div>\n    <!--</div>-->\n  </div>\n\n</div>"
+module.exports = "\r\n<div  *ngIf=\"isCompletely\" >\r\n  <div *ngIf=\"type == 'inline'\" class=\"has-{{colorTheme}} \">\r\n    <go-label *ngIf=\"label\" [label]=\"label\" [require]=\"require\"></go-label>\r\n      <label *ngFor=\"let d of data\"> \r\n        <label *ngIf=\"d.disable == true\" class=\"form-check-label\" >\r\n          <input type=\"checkbox\"\r\n                  [id]=\"id\"\r\n                  [name]=\"name\"\r\n                  [value]=\"d.value\"\r\n                  [isCheckCB]=\"d.checked\"\r\n                  (change)=\"onCheckboxChange(d,$event)\"\r\n                  disabled>\r\n          <input class=\"custom-control-input\" disabled>\r\n          <span class=\"custom-control-description\">{{d.label}}</span>\r\n        </label>\r\n        <label *ngIf=\"d.disable != true\" class=\"form-check-label\"  >\r\n          <input type=\"checkbox\" \r\n                  [id]=\"id\" \r\n                  [name]=\"name\"\r\n                  [value]=\"d.value\"\r\n                  [isCheckCB]=\"d.checked\"\r\n                  (change)=\"onCheckboxChange(d,$event)\"\r\n                  > {{d.label}}\r\n        </label>\r\n      </label>\r\n  </div>\r\n\r\n  <div *ngIf=\"type == 'block'\">\r\n    <go-label *ngIf=\"label\" [label]=\"label\" [require]=\"require\"></go-label>\r\n    <div class=\"form-check has-{{colorTheme}}\" *ngFor=\"let d of data\">\r\n      <label *ngIf=\"d.disable == true\" class=\"form-check-label\" >\r\n          <input type=\"checkbox\"\r\n                  [id]=\"id\"\r\n                  [name]=\"name\"\r\n                  [value]=\"d.value\"\r\n                  [isCheckCB]=\"d.checked\"\r\n                  (change)=\"onCheckboxChange(d,$event)\"\r\n                  disabled>\r\n          <input class=\"custom-control-input\" disabled>\r\n          <span class=\"custom-control-description\">{{d.label}}</span>\r\n        </label>\r\n\r\n      <label *ngIf=\"d.disable != true\" class=\"form-check-label\">\r\n        <input type=\"checkbox\"  \r\n              [id]=\"id\" \r\n              [name]=\"name\"\r\n              [value]=\"d.value\"\r\n              [isCheckCB]=\"d.checked\"\r\n              (change)=\"onCheckboxChange(d,$event)\"\r\n              > {{d.label}}\r\n      </label>\r\n    </div>\r\n  </div>\r\n  <div *ngIf=\"type == 'column'\">\r\n    <go-label *ngIf=\"label\" [label]=\"label\" [require]=\"require\"></go-label>\r\n    <!--<div class=\"container-fluid\" >-->\r\n      <div class=\"row\" *ngFor=\"let r of numbersOfRow; let i = index\">\r\n        <div  class=\"col-sm-{{colStyle}} form-check has-{{colorTheme}}\" *ngFor=\"let c of getNumbersOfCol(i);\" >\r\n          <!--<div class=\"form-check\">-->\r\n           <label  *ngIf=\"c.disable == true\" class=\"form-check-inline   \"  >\r\n            <input type=\"checkbox\"\r\n                    [id]=\"id\"\r\n                    [name]=\"name\"\r\n                    [value]=\"c.value\"\r\n                    [isCheckCB]=\"c.checked\"\r\n                    (change)=\"onCheckboxChange(c,$event)\"\r\n                    disabled>\r\n            <input class=\"custom-control-input\" disabled>\r\n            <span class=\"custom-control-description\">{{c.label}}</span>\r\n          </label>\r\n\r\n       \r\n          <label *ngIf=\"c.disable != true\" class=\"form-check-inline \" >\r\n            <input type=\"checkbox\"  \r\n                  [id]=\"id\" \r\n                  [name]=\"name\"\r\n                  [value]=\"c.value\"\r\n                  [isCheckCB]=\"c.checked\"\r\n                  (change)=\"onCheckboxChange(c,$event)\"\r\n                  > {{c.label}}\r\n          </label>\r\n          <!--</div>-->\r\n        </div>\r\n      </div>\r\n    <!--</div>-->\r\n  </div>\r\n\r\n</div>"
 
 /***/ }),
 /* 419 */
 /***/ (function(module, exports) {
 
-module.exports = "<!--<div class=\"container\">\n\t<div class=\"row \">\n\t\t<div class=\"col-md-12 \">-->\n                    <!--[styleClass] = \"styleClass\"-->\n                    <!--[inputStyleClass] = \"inputStyleClass\"-->\n                <p-calendar \n                    [(ngModel)]=\"date\" (onSelect)=\"select($event)\"\n                    [defaultDate] = \"defaultDate\"\n                    [style] = \"style\"\n                    [inputId] = \"inputId\" \n                    [inputStyle] = \"inputStyle\"\n                    [placeholder] = \"placeholder\"  \n                    [disabled] = \"disabled\"\n                    [dateFormat] = \"dateFormat\" \n                    [inline] = \"inline\" \n                    [selectOtherMonths] = \"selectOtherMonths\"\n                    [showIcon] = \"showIcon\"\n                    [icon] = \"icon\"\n                    [readonlyInput] = \"readonlyInput\" \n                    [minDate] = \"minDate\" \n                    [maxDate] = \"maxDate\" \n                    [disabledDates] = \"disabledDates\"\n                    [disabledDays] = \"disabledDays\"\n                    [monthNavigator] = \"monthNavigator\" \n                    [yearNavigator] = \"yearNavigator\" \n                    [yearRange] = \"yearRange\"\n                    [showTime] = \"showTime\" \n                    [hourFormat] = \"hourFormat\"\n                    [locale] = \"locale\"\n                    [dataType] = \"dataType\"\n                    [required] = \"required\"\n                    [showSeconds] = \"showSeconds\"\n                    [stepHour] = \"stepHour\"\n                    [stepMinute] = \"stepMinute\"\n                    [stepSecond] = \"stepSecond\"\n\n                    [isBuddhistYear]=\"isBuddhistYear\" \n                ></p-calendar>\n\t\t<!--</div>\n\t</div>\n</div>-->"
+module.exports = "<!--<div class=\"container\">\r\n\t<div class=\"row \">\r\n\t\t<div class=\"col-md-12 \">-->\r\n                    <!--[styleClass] = \"styleClass\"-->\r\n                    <!--[inputStyleClass] = \"inputStyleClass\"-->\r\n                <p-calendar \r\n                    [(ngModel)]=\"date\" (onSelect)=\"select($event)\"\r\n                    [defaultDate] = \"defaultDate\"\r\n                    [style] = \"style\"\r\n                    [inputId] = \"inputId\" \r\n                    [inputStyle] = \"inputStyle\"\r\n                    [placeholder] = \"placeholder\"  \r\n                    [disabled] = \"disabled\"\r\n                    [dateFormat] = \"dateFormat\" \r\n                    [inline] = \"inline\" \r\n                    [selectOtherMonths] = \"selectOtherMonths\"\r\n                    [showIcon] = \"showIcon\"\r\n                    [icon] = \"icon\"\r\n                    [readonlyInput] = \"readonlyInput\" \r\n                    [minDate] = \"minDate\" \r\n                    [maxDate] = \"maxDate\" \r\n                    [disabledDates] = \"disabledDates\"\r\n                    [disabledDays] = \"disabledDays\"\r\n                    [monthNavigator] = \"monthNavigator\" \r\n                    [yearNavigator] = \"yearNavigator\" \r\n                    [yearRange] = \"yearRange\"\r\n                    [showTime] = \"showTime\" \r\n                    [hourFormat] = \"hourFormat\"\r\n                    [locale] = \"locale\"\r\n                    [dataType] = \"dataType\"\r\n                    [required] = \"required\"\r\n                    [showSeconds] = \"showSeconds\"\r\n                    [stepHour] = \"stepHour\"\r\n                    [stepMinute] = \"stepMinute\"\r\n                    [stepSecond] = \"stepSecond\"\r\n\r\n                    [isBuddhistYear]=\"isBuddhistYear\" \r\n                ></p-calendar>\r\n\t\t<!--</div>\r\n\t</div>\r\n</div>-->"
 
 /***/ }),
 /* 420 */
 /***/ (function(module, exports) {
 
-module.exports = "/*@import url('/node_modules/primeng/resources/themes/bootstrap/theme.css'); */\n/*@import url('/node_modules/primeng/resources/primeng.min.css');*/\n\n/*.ui-inputtext {\n    background: #ffffff !important;\n    padding: 0.5em 0.75em !important;\n    border: 1px solid rgba(0, 0, 0, 0.15) !important;\n    -moz-border-radius: 0.25em !important;\n    -webkit-border-radius: 0.25em !important;\n    border-radius: 0.25em !important;\n    font-size: 1em !important;\n    color: #55595c !important;\n    line-height: 1.25 !important;\n}\n .ui-inputtext.ui-state-focus,\n.ui-inputtext:focus {\n    border: 1px solid #66afe9 !important;\n}*/\n\n"
+module.exports = "/*@import url('/node_modules/primeng/resources/themes/bootstrap/theme.css'); */\r\n/*@import url('/node_modules/primeng/resources/primeng.min.css');*/\r\n\r\n/*.ui-inputtext {\r\n    background: #ffffff !important;\r\n    padding: 0.5em 0.75em !important;\r\n    border: 1px solid rgba(0, 0, 0, 0.15) !important;\r\n    -moz-border-radius: 0.25em !important;\r\n    -webkit-border-radius: 0.25em !important;\r\n    border-radius: 0.25em !important;\r\n    font-size: 1em !important;\r\n    color: #55595c !important;\r\n    line-height: 1.25 !important;\r\n}\r\n .ui-inputtext.ui-state-focus,\r\n.ui-inputtext:focus {\r\n    border: 1px solid #66afe9 !important;\r\n}*/\r\n\r\n"
 
 /***/ }),
 /* 421 */
 /***/ (function(module, exports) {
 
-module.exports = ".more {\n      position: absolute!important;\n    /* margin: 0px!important; */\n    /* top: 0px!important; */\n    margin-top: 2px!important;\n    /* word-break: break-word!important; */\n    background: rgba(0,0,0,0.7)!important;\n    height: 50px!important;\n    width: 50px!important;\n    padding-left: 0px!important;\n    padding-top: 2px!important;\n    padding-top: 2px!important;\n    text-align: center!important;\n}\n.list-img {\n  margin-top: 2px!important;\n  cursor: pointer!important;\n}\n.float-left {\n  float: left!important;\n  margin-right:5px!important;\n  color:#ffffff!important;\n}\n.float-left a:hover {\n  color:red!important;\n  cursor: pointer!important;\n}"
+module.exports = ".more {\r\n      position: absolute!important;\r\n    /* margin: 0px!important; */\r\n    /* top: 0px!important; */\r\n    margin-top: 2px!important;\r\n    /* word-break: break-word!important; */\r\n    background: rgba(0,0,0,0.7)!important;\r\n    height: 50px!important;\r\n    width: 50px!important;\r\n    padding-left: 0px!important;\r\n    padding-top: 2px!important;\r\n    padding-top: 2px!important;\r\n    text-align: center!important;\r\n}\r\n.list-img {\r\n  margin-top: 2px!important;\r\n  cursor: pointer!important;\r\n}\r\n.float-left {\r\n  float: left!important;\r\n  margin-right:5px!important;\r\n  color:#ffffff!important;\r\n}\r\n.float-left a:hover {\r\n  color:red!important;\r\n  cursor: pointer!important;\r\n}"
 
 /***/ }),
 /* 422 */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"showImage === -1\">\n  <ImageModal [modalImages]=\"images\"></ImageModal>\n</div>\n\n<div *ngFor=\"let img of images; let i= index\">\n  <div class=\"float-left\" *ngIf=\"i <= showImage\">\n    <a class=\"more\" *ngIf=\"i==showImage\" (click)=\"OpenImageModel(img.img,images)\"> +{{images.length - showImage}} more </a>\n    <img class=\"list-img\" src=\"{{img.thumb}}\" (click)=\"OpenImageModel(img.img,images)\" alt='Image' />\n  </div>\n</div>\n<div *ngIf=\"openModalWindow\">\n  <ImageModal [modalImages]=\"images\" [imagePointer]=\"imagePointer\" (cancelEvent)=\"cancelImageModel()\"></ImageModal>\n</div>"
+module.exports = "<div *ngIf=\"showImage === -1\">\r\n  <ImageModal [modalImages]=\"images\"></ImageModal>\r\n</div>\r\n\r\n<div *ngFor=\"let img of images; let i= index\">\r\n  <div class=\"float-left\" *ngIf=\"i <= showImage\">\r\n    <a class=\"more\" *ngIf=\"i==showImage\" (click)=\"OpenImageModel(img.img,images)\"> +{{images.length - showImage}} more </a>\r\n    <img class=\"list-img\" src=\"{{img.thumb}}\" (click)=\"OpenImageModel(img.img,images)\" alt='Image' />\r\n  </div>\r\n</div>\r\n<div *ngIf=\"openModalWindow\">\r\n  <ImageModal [modalImages]=\"images\" [imagePointer]=\"imagePointer\" (cancelEvent)=\"cancelImageModel()\"></ImageModal>\r\n</div>"
 
 /***/ }),
 /* 423 */
 /***/ (function(module, exports) {
 
-module.exports = "/*!\n * Copyright (C) 2016 Sergey Akopkokhyants\n * This project is licensed under the terms of the MIT license.\n * https://github.com/akserg/ng2-slim-loading-bar\n */\n\n\n/* Styling for the Slim Loading Progress Bar container */\n.slim-loading-bar {\n    position: fixed;\n    margin: 0;\n    padding: 0;\n    top: 0;\n    left: 0;\n    right: 0;\n    z-index: 99999;\n}\n\n/* Styling for the Slim Loading Progress Bar itself */\n.slim-loading-bar-progress {\n    margin: 0;\n    padding: 0;\n    z-index: 99998;\n    background-color: green;\n    color: green;\n    box-shadow: 0 0 10px 0; /* Inherits the font color */\n    height: 2px;\n    opacity: 0;\n\n    /* Add CSS3 styles for transition smoothing */\n    /*-webkit-transition: all 0.5s ease-in-out;\n    -moz-transition: all 0.5s ease-in-out;\n    -o-transition: all 0.5s ease-in-out;\n    transition: all 0.5s ease-in-out;*/\n}\n\n/*Lock screen Overlay*/\n.lock__overlay {\n      height: 100%;\n      right: 0;\n      pointer-events: none;\n      position: fixed;\n      bottom: 0;\n      width: 100%;\n      z-index: 99999998;\n}\n.lock__overlay--style {\n    background: #000;\n    opacity: 0.5;\n}"
+module.exports = "/*!\r\n * Copyright (C) 2016 Sergey Akopkokhyants\r\n * This project is licensed under the terms of the MIT license.\r\n * https://github.com/akserg/ng2-slim-loading-bar\r\n */\r\n\r\n\r\n/* Styling for the Slim Loading Progress Bar container */\r\n.slim-loading-bar {\r\n    position: fixed;\r\n    margin: 0;\r\n    padding: 0;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    z-index: 99999;\r\n}\r\n\r\n/* Styling for the Slim Loading Progress Bar itself */\r\n.slim-loading-bar-progress {\r\n    margin: 0;\r\n    padding: 0;\r\n    z-index: 99998;\r\n    background-color: green;\r\n    color: green;\r\n    box-shadow: 0 0 10px 0; /* Inherits the font color */\r\n    height: 2px;\r\n    opacity: 0;\r\n\r\n    /* Add CSS3 styles for transition smoothing */\r\n    /*-webkit-transition: all 0.5s ease-in-out;\r\n    -moz-transition: all 0.5s ease-in-out;\r\n    -o-transition: all 0.5s ease-in-out;\r\n    transition: all 0.5s ease-in-out;*/\r\n}\r\n\r\n/*Lock screen Overlay*/\r\n.lock__overlay {\r\n      height: 100%;\r\n      right: 0;\r\n      pointer-events: none;\r\n      position: fixed;\r\n      bottom: 0;\r\n      width: 100%;\r\n      z-index: 99999998;\r\n}\r\n.lock__overlay--style {\r\n    background: #000;\r\n    opacity: 0.5;\r\n}"
 
 /***/ }),
 /* 424 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"slim-loading-bar\">\n    <div class=\"slim-loading-bar-progress\" [ngStyle]=\"{transition:transition, '-o-transition':transition, '-moz-transition':transition, '-webkit-transition':transition}\"\n        [style.width]=\"barwidth + '%'\" [style.backgroundColor]=\"color\" [style.color]=\"color\" [style.height]=\"height\" [style.opacity]=\"show ? '1' : '0'\"></div>\n</div>\n<div *ngIf=\"lockOnLoad\" [@visibleOverlayState]=\"_visibleOverlayState\" class=\"lock__overlay\" [class.lock__overlay--style]=\"show\"\n    [style.opacity]=\"opacity\">\n    </div>"
+module.exports = "<div class=\"slim-loading-bar\">\r\n    <div class=\"slim-loading-bar-progress\" [ngStyle]=\"{transition:transition, '-o-transition':transition, '-moz-transition':transition, '-webkit-transition':transition}\"\r\n        [style.width]=\"barwidth + '%'\" [style.backgroundColor]=\"color\" [style.color]=\"color\" [style.height]=\"height\" [style.opacity]=\"show ? '1' : '0'\"></div>\r\n</div>\r\n<div *ngIf=\"lockOnLoad\" [@visibleOverlayState]=\"_visibleOverlayState\" class=\"lock__overlay\" [class.lock__overlay--style]=\"show\"\r\n    [style.opacity]=\"opacity\">\r\n    </div>"
 
 /***/ }),
 /* 425 */
 /***/ (function(module, exports) {
 
-module.exports = "li.nav-item{\n    margin-left: 1rem!important;\n}"
+module.exports = "li.nav-item{\r\n    margin-left: 1rem!important;\r\n}"
 
 /***/ }),
 /* 426 */
 /***/ (function(module, exports) {
 
-module.exports = "<li class=\"nav-item dropdown\">\n  <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"supportedContentDropdown\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">{{headLabel}}</a>\n  <div class=\"dropdown-menu\" aria-labelledby=\"supportedContentDropdown\">\n    <div *ngFor=\"let page of pageList\">\n      <div *ngIf=\"page.separated\" class=\"dropdown-divider\"></div>\n      <a *ngIf=\"page.routerLink != null\" class=\"dropdown-item\" routerLinkActive=\"active\" routerLink=\"/{{page.routerLink}}\">{{page.menuName}}</a>\n      <a *ngIf=\"page.routerLink == null && page.outerHref != null\" class=\"dropdown-item\" href=\"{{page.outerHref}}\" target=\"_blank\">{{page.menuName}}</a>\n      <!--<a *ngIf=\"page.routerLink == null && page.outerHref == null && page.innerHref != null\" class=\"dropdown-item\" routerLinkActive=\"active\" href=\"/{{page.innerHref}}/\">{{page.menuName}}</a>-->\n    </div>\n  </div>\n</li>"
+module.exports = "<li class=\"nav-item dropdown\">\r\n  <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"supportedContentDropdown\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">{{headLabel}}</a>\r\n  <div class=\"dropdown-menu\" aria-labelledby=\"supportedContentDropdown\">\r\n    <div *ngFor=\"let page of pageList\">\r\n      <div *ngIf=\"page.separated\" class=\"dropdown-divider\"></div>\r\n      <a *ngIf=\"page.routerLink != null\" class=\"dropdown-item\" routerLinkActive=\"active\" routerLink=\"/{{page.routerLink}}\">{{page.menuName}}</a>\r\n      <a *ngIf=\"page.routerLink == null && page.outerHref != null\" class=\"dropdown-item\" href=\"{{page.outerHref}}\" target=\"_blank\">{{page.menuName}}</a>\r\n      <!--<a *ngIf=\"page.routerLink == null && page.outerHref == null && page.innerHref != null\" class=\"dropdown-item\" routerLinkActive=\"active\" href=\"/{{page.innerHref}}/\">{{page.menuName}}</a>-->\r\n    </div>\r\n  </div>\r\n</li>"
 
 /***/ }),
 /* 427 */
 /***/ (function(module, exports) {
 
-module.exports = "<div  *ngIf=\"isCompletely\" >\n  <div *ngIf=\"type == 'inline' || type == undefined\" class=\"has-{{colorTheme}}\">\n    <go-label *ngIf=\"label\" [label]=\"label\" [require]=\"require\"></go-label>\n    <label class=\"custom-control custom-radio \" *ngFor=\"let d of data\">\n        <input *ngIf=\"d.disable == 'true'\" type=\"radio\"\n                   id=\"{{id}}\"\n                  name=\"{{name}}\"\n                  value=\"{{d.value}}\"\n                  [customReadonly]=\"d.readonly\"\n                  [isCheck]=\"d.checked\"\n                  disabled\n                  (change)=\"selected(d,$event)\"\n                  >\n          <input *ngIf=\"d.disable == 'true'\" class=\"custom-control-input\" disabled>\n          <span *ngIf=\"d.disable == 'true'\" class=\"custom-control-description\">{{d.label}}</span>\n      <label *ngIf=\"d.disable != 'true'\">\n          <input type=\"radio\" \n                  id=\"{{id}}\" \n                  name=\"{{name}}\"\n                  value=\"{{d.value}}\"\n                  [customDisabled]=\"d.disable\"\n                  [customReadonly]=\"d.readonly\"\n                  [isCheck]=\"d.checked\"\n                  (change)=\"selected(d,$event)\"\n                  > {{d.label}} \n      </label>\n    </label>\n  </div>\n\n  <div *ngIf=\"type == 'block'\">\n    <go-label *ngIf=\"label\" [label]=\"label\" [require]=\"require\"></go-label>\n    <div  *ngFor=\"let d of data\" >\n      <label *ngIf=\"d.disable == 'true'\" class=\"text-{{colorTheme}}\" >\n        <input type=\"radio\"\n                   id=\"{{id}}\"\n                  name=\"{{name}}\"\n                  value=\"{{d.value}}\"\n                  [customReadonly]=\"d.readonly\"\n                  [isCheck]=\"d.checked\"\n                  disabled\n                  (change)=\"selected(d,$event)\"\n                  >\n          <input class=\"custom-control-input\" disabled>\n          <span class=\"custom-control-description\">{{d.label}}</span>\n      </label>\n      <label *ngIf=\"d.disable != 'true'\" class=\"text-{{colorTheme}}\" >\n          <input type=\"radio\" \n                  id=\"{{id}}\" \n                  name=\"{{name}}\"\n                  value=\"{{d.value}}\"\n                  [customDisabled]=\"d.disable\"\n                  [customReadonly]=\"d.readonly\"\n                  [isCheck]=\"d.checked\"\n                  (change)=\"selected(d,$event)\"\n                  > {{d.label}}\n      </label>\n    </div> \n  </div>\n    <div *ngIf=\"type == 'column'\">\n    <go-label *ngIf=\"label\" [label]=\"label\" [require]=\"require\"></go-label>\n    <!--<div class=\"container\" >-->\n      <div class=\"row\" *ngFor=\"let r of numbersOfRow; let i = index\">\n        <div class=\"col-sm-{{colStyle}} form-check has-{{colorTheme}}\" *ngFor=\"let c of getNumbersOfCol(i);\" >\n           <label *ngIf=\"c.disable == 'true'\" class=\"form-check-label\" >\n            <input type=\"radio\"\n                    id=\"{{id}}\"\n                    name=\"{{name}}\"\n                    value=\"{{c.value}}\"\n                    [customReadonly]=\"c.readonly\"\n                    [isCheck]=\"c.checked\"\n                    (change)=\"selected(c,$event)\"\n                    disabled>\n            <input class=\"custom-control-input\" disabled>\n            <span class=\"custom-control-description\">{{c.label}}</span>\n          </label>\n       \n          <label *ngIf=\"c.disable != 'true'\" class=\"form-check-label\" >\n            <input type=\"radio\"  \n                  id=\"{{id}}\" \n                  name=\"{{name}}\"\n                  value=\"{{c.value}}\"\n                  [customDisabled]=\"c.disable\"\n                  [customReadonly]=\"c.readonly\"\n                  [isCheck]=\"c.checked\"\n                  (change)=\"selected(c,$event)\"\n                  > {{c.label}}\n          </label>\n        </div>\n      </div>\n    <!--</div>-->\n  </div>\n</div>"
+module.exports = "<div  *ngIf=\"isCompletely\" >\r\n  <div *ngIf=\"type == 'inline' || type == undefined\" class=\"has-{{colorTheme}}\">\r\n    <go-label *ngIf=\"label\" [label]=\"label\" [require]=\"require\"></go-label>\r\n    <label class=\"custom-control custom-radio \" *ngFor=\"let d of data\">\r\n        <input *ngIf=\"d.disable == 'true'\" type=\"radio\"\r\n                   id=\"{{id}}\"\r\n                  name=\"{{name}}\"\r\n                  value=\"{{d.value}}\"\r\n                  [customReadonly]=\"d.readonly\"\r\n                  [isCheck]=\"d.checked\"\r\n                  disabled\r\n                  (change)=\"selected(d,$event)\"\r\n                  >\r\n          <input *ngIf=\"d.disable == 'true'\" class=\"custom-control-input\" disabled>\r\n          <span *ngIf=\"d.disable == 'true'\" class=\"custom-control-description\">{{d.label}}</span>\r\n      <label *ngIf=\"d.disable != 'true'\">\r\n          <input type=\"radio\" \r\n                  id=\"{{id}}\" \r\n                  name=\"{{name}}\"\r\n                  value=\"{{d.value}}\"\r\n                  [customDisabled]=\"d.disable\"\r\n                  [customReadonly]=\"d.readonly\"\r\n                  [isCheck]=\"d.checked\"\r\n                  (change)=\"selected(d,$event)\"\r\n                  > {{d.label}} \r\n      </label>\r\n    </label>\r\n  </div>\r\n\r\n  <div *ngIf=\"type == 'block'\">\r\n    <go-label *ngIf=\"label\" [label]=\"label\" [require]=\"require\"></go-label>\r\n    <div  *ngFor=\"let d of data\" >\r\n      <label *ngIf=\"d.disable == 'true'\" class=\"text-{{colorTheme}}\" >\r\n        <input type=\"radio\"\r\n                   id=\"{{id}}\"\r\n                  name=\"{{name}}\"\r\n                  value=\"{{d.value}}\"\r\n                  [customReadonly]=\"d.readonly\"\r\n                  [isCheck]=\"d.checked\"\r\n                  disabled\r\n                  (change)=\"selected(d,$event)\"\r\n                  >\r\n          <input class=\"custom-control-input\" disabled>\r\n          <span class=\"custom-control-description\">{{d.label}}</span>\r\n      </label>\r\n      <label *ngIf=\"d.disable != 'true'\" class=\"text-{{colorTheme}}\" >\r\n          <input type=\"radio\" \r\n                  id=\"{{id}}\" \r\n                  name=\"{{name}}\"\r\n                  value=\"{{d.value}}\"\r\n                  [customDisabled]=\"d.disable\"\r\n                  [customReadonly]=\"d.readonly\"\r\n                  [isCheck]=\"d.checked\"\r\n                  (change)=\"selected(d,$event)\"\r\n                  > {{d.label}}\r\n      </label>\r\n    </div> \r\n  </div>\r\n    <div *ngIf=\"type == 'column'\">\r\n    <go-label *ngIf=\"label\" [label]=\"label\" [require]=\"require\"></go-label>\r\n    <!--<div class=\"container\" >-->\r\n      <div class=\"row\" *ngFor=\"let r of numbersOfRow; let i = index\">\r\n        <div class=\"col-sm-{{colStyle}} form-check has-{{colorTheme}}\" *ngFor=\"let c of getNumbersOfCol(i);\" >\r\n           <label *ngIf=\"c.disable == 'true'\" class=\"form-check-label\" >\r\n            <input type=\"radio\"\r\n                    id=\"{{id}}\"\r\n                    name=\"{{name}}\"\r\n                    value=\"{{c.value}}\"\r\n                    [customReadonly]=\"c.readonly\"\r\n                    [isCheck]=\"c.checked\"\r\n                    (change)=\"selected(c,$event)\"\r\n                    disabled>\r\n            <input class=\"custom-control-input\" disabled>\r\n            <span class=\"custom-control-description\">{{c.label}}</span>\r\n          </label>\r\n       \r\n          <label *ngIf=\"c.disable != 'true'\" class=\"form-check-label\" >\r\n            <input type=\"radio\"  \r\n                  id=\"{{id}}\" \r\n                  name=\"{{name}}\"\r\n                  value=\"{{c.value}}\"\r\n                  [customDisabled]=\"c.disable\"\r\n                  [customReadonly]=\"c.readonly\"\r\n                  [isCheck]=\"c.checked\"\r\n                  (change)=\"selected(c,$event)\"\r\n                  > {{c.label}}\r\n          </label>\r\n        </div>\r\n      </div>\r\n    <!--</div>-->\r\n  </div>\r\n</div>"
 
 /***/ }),
 /* 428 */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-sidebar-container> \n\t<ng-sidebar [(opened)]=\"opened\" [position]=\"position\" [closeOnClickOutside]=\"closeOnClickOutside\" [animate]=\"animate\" [trapFocus]=\"trapFocus\"\n\t[autoFocus]=\"autoFocus\" ariaLabel='go-sidebar' (onOpenStart)=\"onSidebarOpen()\" (onOpened)=\"onOpenFinish()\" (onCloseStart)=\"onSidebarClose()\"\n\t(onClosed)=\"onCloseFinish()\">\n\t\t<ng-content *ngIf=\"showing\"></ng-content>\n\t</ng-sidebar>\n</ng-sidebar-container>\n<div *ngIf=\"showBackdrop\" [@visibleOverlayState]=\"_visibleOverlayState\" aria-hidden='true' class=\"ng2-sidebar__overlay\" [class.ng2-sidebar__overlay--style]=\"opened\"></div>"
+module.exports = "<ng-sidebar-container> \r\n\t<ng-sidebar [(opened)]=\"opened\" [position]=\"position\" [closeOnClickOutside]=\"closeOnClickOutside\" [animate]=\"animate\" [trapFocus]=\"trapFocus\"\r\n\t[autoFocus]=\"autoFocus\" ariaLabel='go-sidebar' (onOpenStart)=\"onSidebarOpen()\" (onOpened)=\"onOpenFinish()\" (onCloseStart)=\"onSidebarClose()\"\r\n\t(onClosed)=\"onCloseFinish()\">\r\n\t\t<ng-content *ngIf=\"showing\"></ng-content>\r\n\t</ng-sidebar>\r\n</ng-sidebar-container>\r\n<div *ngIf=\"showBackdrop\" [@visibleOverlayState]=\"_visibleOverlayState\" aria-hidden='true' class=\"ng2-sidebar__overlay\" [class.ng2-sidebar__overlay--style]=\"opened\"></div>"
 
 /***/ }),
 /* 429 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-md-12\" *ngIf=\"config.filtering && filterAll\">\n\t<input placeholder=\"Filter all columns\" [ngTableFiltering]=\"config.filtering\" class=\"form-control\" (tableChanged)=\"onChangeTable(config)\"\n\t/>\n</div>\n<br *ngIf=\"config.filtering && filterAll\">\n<ng-table [config]=\"config\" (tableChanged)=\"onChangeTable(config)\" (cellClicked)=\"onCellClick($event)\" [rows]=\"rows\" [columns]=\"columns\">\n</ng-table>\n<pagination *ngIf=\"config.paging\" class=\"pagination-sm\" [(ngModel)]=\"page\" [totalItems]=\"length\" [itemsPerPage]=\"itemsPerPage\"\n\t[maxSize]=\"maxSize\" [boundaryLinks]=\"true\" [rotate]=\"false\" (pageChanged)=\"onChangeTable(config, $event)\" (numPages)=\"numPages = $event\"></pagination>\n\n\t<div *ngIf=\"config.paging && showCard\" class=\"card\">\n\t\t<div class={{cardClass}}>\n\t\t\t<blockquote class=\"card-blockquote\">Page: {{page}} / {{numPages}}\n\t\t\t</blockquote>\n\t\t</div>\n\t</div>"
+module.exports = "<div class=\"col-md-12\" *ngIf=\"config.filtering && filterAll\">\r\n\t<input placeholder=\"Filter all columns\" [ngTableFiltering]=\"config.filtering\" class=\"form-control\" (tableChanged)=\"onChangeTable(config)\"\r\n\t/>\r\n</div>\r\n<br *ngIf=\"config.filtering && filterAll\">\r\n<ng-table [config]=\"config\" (tableChanged)=\"onChangeTable(config)\" (cellClicked)=\"onCellClick($event)\" [rows]=\"rows\" [columns]=\"columns\">\r\n</ng-table>\r\n<pagination *ngIf=\"config.paging\" class=\"pagination-sm\" [(ngModel)]=\"page\" [totalItems]=\"length\" [itemsPerPage]=\"itemsPerPage\"\r\n\t[maxSize]=\"maxSize\" [boundaryLinks]=\"true\" [rotate]=\"false\" (pageChanged)=\"onChangeTable(config, $event)\" (numPages)=\"numPages = $event\"></pagination>\r\n\r\n\t<div *ngIf=\"config.paging && showCard\" class=\"card\">\r\n\t\t<div class={{cardClass}}>\r\n\t\t\t<blockquote class=\"card-blockquote\">Page: {{page}} / {{numPages}}\r\n\t\t\t</blockquote>\r\n\t\t</div>\r\n\t</div>"
 
 /***/ }),
 /* 430 */
 /***/ (function(module, exports) {
 
-module.exports = "div.gos-textarea-margin {margin: 0.5rem 0.25rem 0 0.25rem!important;}\ntextarea {resize: none!important;}"
+module.exports = "div.gos-textarea-margin {margin: 0.5rem 0.25rem 0 0.25rem!important;}\r\ntextarea {resize: none!important;}"
 
 /***/ }),
 /* 431 */
 /***/ (function(module, exports) {
 
-module.exports = "<span class=\"gos-textarea-margin\">\n    <go-label [label]=\"label\" [forId]=\"goId\" [require]=\"require\"></go-label>\n    <textarea class=\"form-control {{colorClass}}\" [id]=\"goId\" [name]=\"goName\" [rows]=\"row\" [customDisabled]=\"disable\" [customReadonly]=\"readonly\"\n    [customMaxlength]=\"maxlength\" (keyup)=\"getTextFromArea()\">{{defaultValue}}</textarea>\n</span>"
+module.exports = "<span class=\"gos-textarea-margin\">\r\n    <go-label [label]=\"label\" [forId]=\"goId\" [require]=\"require\"></go-label>\r\n    <textarea class=\"form-control {{colorClass}}\" [id]=\"goId\" [name]=\"goName\" [rows]=\"row\" [customDisabled]=\"disable\" [customReadonly]=\"readonly\"\r\n    [customMaxlength]=\"maxlength\" (keyup)=\"getTextFromArea()\">{{defaultValue}}</textarea>\r\n</span>"
 
 /***/ }),
 /* 432 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card card-block col-md-12 text-center\"\n\t[ngClass]=\"{'card-info': this.dragHighlight}\"\n\t*ngIf=\"showDragandDropBox\" (dragenter)=\"onDragEnter($event)\"\n\t(dragover)=\"onDragOver($event)\" (dragleave)=\"onDragLeave($event)\"\n\t(drop)=\"onDrop($event)\">{{draganddropBoxMessage}}</div>\n<div class=\"col-md-12\"\n\t*ngIf=\"showBrowseButton || showLatestFileNameChosen || !autoUpload || (canAbort && uploading)\">\n\t<button class=\"btn btn-primary btn-sm\" id=\"fileselect\"\n\t\t(click)=\"onChooseClick($event, fileinput)\" [disabled]=\"uploading\"\n\t\t*ngIf=\"showBrowseButton\">\n\t\t<input #fileinput id=\"my-file-selector\" type=\"file\"\n\t\t\tstyle=\"display: none;\" (change)=\"onFileSelect($event)\"\n\t\t\t[multiple]=\"multiple\" [accept]=\"accept\" [disabled]=\"uploading\">\n\t\t<i class=\"fa fa-plus\"></i> {{chooseLabel}}\n\t</button>\n\t<label class=\"label label-info\" *ngIf=\"showLatestFileNameChosen\">\n\t\t{{chooseFileName}} </label>\n\t<button *ngIf=\"!autoUpload\" class=\"btn btn-success btn-sm\"\n\t\t(click)=\"upload()\" [disabled]=\"!hasFiles() || uploading\">\n\t\t<i class=\"fa fa-upload\"></i> {{uploadLabel}}\n\t</button>\n\t<button *ngIf=\"!autoUpload && (!canAbort || (canAbort && !uploading))\"\n\t\tclass=\"btn btn-danger btn-sm\" (click)=\"clear()\"\n\t\t[disabled]=\"!hasFiles() || uploading\">\n\t\t<i class=\"fa fa-ban\"></i> {{clearLabel}}\n\t</button>\n\t<button *ngIf=\"canAbort && uploading\" class=\" btn btn-danger btn-sm\"\n\t\t(click)=\"abortUpload()\" [disabled]=\"!uploading\">\n\t\t<i class=\"fa fa-times\"></i> {{abortLabel}}\n\t</button>\n</div>\n<div class=\"alert alert-danger col-md-12\" role=\"alert\"\n\t*ngIf=\"showFileChosenError && showError\" [innerHTML]=\"errorMsg\">\n\t<button type=\"button\" class=\"close\" (click)=\"this.showError = false;\">\n\t\t<span aria-hidden=\"true\">&times;</span>\n\t</button>\n</div>\n<div [ngClass]=\"uploadStatusClass\" role=\"alert\"\n\t*ngIf=\"showUploadStatusDialog && uploadstatus\" [innerHTML]=\"uploadstatus\">\n\t<button type=\"button\" class=\"close\" (click)=\"this.uploadstatus = '';\">\n\t\t<span aria-hidden=\"true\">&times;</span>\n\t</button>\n</div>\n<div class=\"col-md-12\" *ngIf=\"hasFiles() && showProgressBar\">\n\t<div class=\"text-xs-center\">{{uploadingMessage}}\n\t\t{{progressPercent}}</div>\n\t<div class=\"text-xs-center\">{{uploadedSizeHumanized}}\n\t\t({{uploadSpeedHumanized}})</div>\n\t<div class=\"row\">\n\t\t<progress class=\"progress progress-striped progress-animated\"\n\t\t\t[value]=\"progress\" max=\"100\"\n\t\t\taria-describedby=\"uploadprogress-caption\"></progress>\n\n\t</div>\n</div>\n<div class=\"col-md-12\" *ngIf=\"hasFiles() && showAllFileChosen\">\n\t<div class=\"row\" *ngFor=\"let file of files\">\n\t\t<img [src]=\"file.objectURL\" *ngIf=\"isImage(file) && showImage\"\n\t\t\t[width]=\"previewWidth\" /> <i class=\"fa fa-file-image-o\"\n\t\t\t*ngIf=\"isImage(file) && !showImage\"></i><i class=\"fa fa-file\"\n\t\t\t*ngIf=\"!isImage(file)\"></i> {{file.name}} - {{formatSize(file.size)}}\n\t\t<button class=\"btn btn-danger btn-sm\" (click)=\"remove(file)\"\n\t\t\t*ngIf=\"!autoUpload\" [disabled]=\"uploading\">\n\t\t\t<i class=\"fa fa-trash\"></i>{{deleteLabel}}\n\t\t</button>\n\t</div>\n</div>"
+module.exports = "<div class=\"card card-block col-md-12 text-center\"\r\n\t[ngClass]=\"{'card-info': this.dragHighlight}\"\r\n\t*ngIf=\"showDragandDropBox\" (dragenter)=\"onDragEnter($event)\"\r\n\t(dragover)=\"onDragOver($event)\" (dragleave)=\"onDragLeave($event)\"\r\n\t(drop)=\"onDrop($event)\">{{draganddropBoxMessage}}</div>\r\n<div class=\"col-md-12\"\r\n\t*ngIf=\"showBrowseButton || showLatestFileNameChosen || !autoUpload || (canAbort && uploading)\">\r\n\t<button class=\"btn btn-primary btn-sm\" id=\"fileselect\"\r\n\t\t(click)=\"onChooseClick($event, fileinput)\" [disabled]=\"uploading\"\r\n\t\t*ngIf=\"showBrowseButton\">\r\n\t\t<input #fileinput id=\"my-file-selector\" type=\"file\"\r\n\t\t\tstyle=\"display: none;\" (change)=\"onFileSelect($event)\"\r\n\t\t\t[multiple]=\"multiple\" [accept]=\"accept\" [disabled]=\"uploading\">\r\n\t\t<i class=\"fa fa-plus\"></i> {{chooseLabel}}\r\n\t</button>\r\n\t<label class=\"label label-info\" *ngIf=\"showLatestFileNameChosen\">\r\n\t\t{{chooseFileName}} </label>\r\n\t<button *ngIf=\"!autoUpload\" class=\"btn btn-success btn-sm\"\r\n\t\t(click)=\"upload()\" [disabled]=\"!hasFiles() || uploading\">\r\n\t\t<i class=\"fa fa-upload\"></i> {{uploadLabel}}\r\n\t</button>\r\n\t<button *ngIf=\"!autoUpload && (!canAbort || (canAbort && !uploading))\"\r\n\t\tclass=\"btn btn-danger btn-sm\" (click)=\"clear()\"\r\n\t\t[disabled]=\"!hasFiles() || uploading\">\r\n\t\t<i class=\"fa fa-ban\"></i> {{clearLabel}}\r\n\t</button>\r\n\t<button *ngIf=\"canAbort && uploading\" class=\" btn btn-danger btn-sm\"\r\n\t\t(click)=\"abortUpload()\" [disabled]=\"!uploading\">\r\n\t\t<i class=\"fa fa-times\"></i> {{abortLabel}}\r\n\t</button>\r\n</div>\r\n<div class=\"alert alert-danger col-md-12\" role=\"alert\"\r\n\t*ngIf=\"showFileChosenError && showError\" [innerHTML]=\"errorMsg\">\r\n\t<button type=\"button\" class=\"close\" (click)=\"this.showError = false;\">\r\n\t\t<span aria-hidden=\"true\">&times;</span>\r\n\t</button>\r\n</div>\r\n<div [ngClass]=\"uploadStatusClass\" role=\"alert\"\r\n\t*ngIf=\"showUploadStatusDialog && uploadstatus\" [innerHTML]=\"uploadstatus\">\r\n\t<button type=\"button\" class=\"close\" (click)=\"this.uploadstatus = '';\">\r\n\t\t<span aria-hidden=\"true\">&times;</span>\r\n\t</button>\r\n</div>\r\n<div class=\"col-md-12\" *ngIf=\"hasFiles() && showProgressBar\">\r\n\t<div class=\"text-xs-center\">{{uploadingMessage}}\r\n\t\t{{progressPercent}}</div>\r\n\t<div class=\"text-xs-center\">{{uploadedSizeHumanized}}\r\n\t\t({{uploadSpeedHumanized}})</div>\r\n\t<div class=\"row\">\r\n\t\t<progress class=\"progress progress-striped progress-animated\"\r\n\t\t\t[value]=\"progress\" max=\"100\"\r\n\t\t\taria-describedby=\"uploadprogress-caption\"></progress>\r\n\r\n\t</div>\r\n</div>\r\n<div class=\"col-md-12\" *ngIf=\"hasFiles() && showAllFileChosen\">\r\n\t<div class=\"row\" *ngFor=\"let file of files\">\r\n\t\t<img [src]=\"file.objectURL\" *ngIf=\"isImage(file) && showImage\"\r\n\t\t\t[width]=\"previewWidth\" /> <i class=\"fa fa-file-image-o\"\r\n\t\t\t*ngIf=\"isImage(file) && !showImage\"></i><i class=\"fa fa-file\"\r\n\t\t\t*ngIf=\"!isImage(file)\"></i> {{file.name}} - {{formatSize(file.size)}}\r\n\t\t<button class=\"btn btn-danger btn-sm\" (click)=\"remove(file)\"\r\n\t\t\t*ngIf=\"!autoUpload\" [disabled]=\"uploading\">\r\n\t\t\t<i class=\"fa fa-trash\"></i>{{deleteLabel}}\r\n\t\t</button>\r\n\t</div>\r\n</div>"
 
 /***/ }),
 /* 433 */
