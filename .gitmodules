@@ -1,94 +1,94 @@
 [submodule "src/go-module/component/go-checkbox"]
 	path = src/go-module/component/go-checkbox
-	url = git@10.182.247.74:go-webframework/go-checkbox.git
+	url = git@10.182.247.74:frontend-framework/go-checkbox.git
 [submodule "src/go-module/component/go-textarea"]
 	path = src/go-module/component/go-textarea
-	url = git@10.182.247.74:go-webframework/go-textarea.git
+	url = git@10.182.247.74:frontend-framework/go-textarea.git
 [submodule "src/go-module/component/go-radiobutton"]
 	path = src/go-module/component/go-radiobutton
-	url = git@10.182.247.74:go-webframework/go-radiobutton.git
+	url = git@10.182.247.74:frontend-framework/go-radiobutton.git
 [submodule "src/go-module/component/go-auto-complete"]
 	path = src/go-module/component/go-auto-complete
-	url = git@10.182.247.74:go-webframework/go-auto-complete.git
+	url = git@10.182.247.74:frontend-framework/go-auto-complete.git
 [submodule "src/go-module/component/go-badge"]
 	path = src/go-module/component/go-badge
-	url = git@10.182.247.74:go-webframework/go-badge.git
+	url = git@10.182.247.74:frontend-framework/go-badge.git
 [submodule "src/go-module/component/go-button"]
 	path = src/go-module/component/go-button
-	url = git@10.182.247.74:go-webframework/go-button.git
+	url = git@10.182.247.74:frontend-framework/go-button.git
 [submodule "src/go-module/component/go-chart"]
 	path = src/go-module/component/go-chart
-	url = git@10.182.247.74:go-webframework/go-chart.git
+	url = git@10.182.247.74:frontend-framework/go-chart.git
 [submodule "src/go-module/component/go-textbox"]
 	path = src/go-module/component/go-textbox
-	url = git@10.182.247.74:go-webframework/go-textbox.git
+	url = git@10.182.247.74:frontend-framework/go-textbox.git
 [submodule "src/go-module/component/go-datetimepicker"]
 	path = src/go-module/component/go-datetimepicker
-	url = git@10.182.247.74:go-webframework/go-datetimepicker.git
+	url = git@10.182.247.74:frontend-framework/go-datetimepicker.git
 [submodule "src/go-module/component/go-directive"]
 	path = src/go-module/component/go-directive
-	url = git@10.182.247.74:go-webframework/go-directive.git
+	url = git@10.182.247.74:frontend-framework/go-directive.git
 [submodule "src/go-module/component/go-image-gallery"]
 	path = src/go-module/component/go-image-gallery
-	url = git@10.182.247.74:go-webframework/go-image-gallery.git
+	url = git@10.182.247.74:frontend-framework/go-image-gallery.git
 [submodule "src/go-module/component/go-label"]
 	path = src/go-module/component/go-label
-	url = git@10.182.247.74:go-webframework/go-label.git
+	url = git@10.182.247.74:frontend-framework/go-label.git
 [submodule "src/go-module/component/go-progressbar"]
 	path = src/go-module/component/go-progressbar
-	url = git@10.182.247.74:go-webframework/go-progressbar.git
+	url = git@10.182.247.74:frontend-framework/go-progressbar.git
 [submodule "src/go-module/component/go-pulldown-menu"]
 	path = src/go-module/component/go-pulldown-menu
-	url = git@10.182.247.74:go-webframework/go-pulldown-menu.git
+	url = git@10.182.247.74:frontend-framework/go-pulldown-menu.git
 [submodule "src/go-module/component/go-selectbox"]
 	path = src/go-module/component/go-selectbox
-	url = git@10.182.247.74:go-webframework/go-selectbox.git
+	url = git@10.182.247.74:frontend-framework/go-selectbox.git
 [submodule "src/go-module/component/go-sidebar"]
 	path = src/go-module/component/go-sidebar
-	url = git@10.182.247.74:go-webframework/go-sidebar.git
+	url = git@10.182.247.74:frontend-framework/go-sidebar.git
 [submodule "src/go-module/component/go-service"]
 	path = src/go-module/component/go-service
-	url = git@10.182.247.74:go-webframework/go-service.git
+	url = git@10.182.247.74:frontend-framework/go-service.git
 [submodule "src/go-module/component/go-table"]
 	path = src/go-module/component/go-table
-	url = git@10.182.247.74:go-webframework/go-table.git
+	url = git@10.182.247.74:frontend-framework/go-table.git
 [submodule "src/go-module/component/go-texteditor"]
 	path = src/go-module/component/go-texteditor
-	url = git@10.182.247.74:go-webframework/go-texteditor.git
+	url = git@10.182.247.74:frontend-framework/go-texteditor.git
 [submodule "src/go-module/component/go-upload"]
 	path = src/go-module/component/go-upload
-	url = git@10.182.247.74:go-webframework/go-upload.git
+	url = git@10.182.247.74:frontend-framework/go-upload.git
 [submodule "src/go-module/component/go-accordion"]
 	path = src/go-module/component/go-accordion
-	url = git@10.182.247.74:go-webframework/go-accordion.git
+	url = git@10.182.247.74:frontend-framework/go-accordion.git
 [submodule "src/go-module/component/go-datagrid"]
 	path = src/go-module/component/go-datagrid
-	url = git@10.182.247.74:go-webframework/go-datagrid.git
+	url = git@10.182.247.74:frontend-framework/go-datagrid.git
 	[submodule "src/go-module/component/go-datatable"]
 	path = src/go-module/component/go-datatable
-	url = git@10.182.247.74:go-webframework/go-datatable.git
+	url = git@10.182.247.74:frontend-framework/go-datatable.git
 
 [submodule "src/go-module/component/go-dialog"]
 	path = src/go-module/component/go-dialog
-	url = git@10.182.247.74:go-webframework/go-dialog.git
+	url = git@10.182.247.74:frontend-framework/go-dialog.git
 [submodule "src/go-module/component/go-galleria"]
 	path = src/go-module/component/go-galleria
-	url = git@10.182.247.74:go-webframework/go-galleria.git
+	url = git@10.182.247.74:frontend-framework/go-galleria.git
 [submodule "src/go-module/component/go-panel"]
 	path = src/go-module/component/go-panel
-	url = git@10.182.247.74:go-webframework/go-panel.git
+	url = git@10.182.247.74:frontend-framework/go-panel.git
 [submodule "src/go-module/component/go-step"]
 	path = src/go-module/component/go-step
-	url = git@10.182.247.74:go-webframework/go-step.git
+	url = git@10.182.247.74:frontend-framework/go-step.git
 [submodule "src/go-module/component/go-tab"]
 	path = src/go-module/component/go-tab
-	url = git@10.182.247.74:go-webframework/go-tab.git
+	url = git@10.182.247.74:frontend-framework/go-tab.git
 [submodule "src/go-module/component/go-tooltip"]
 	path = src/go-module/component/go-tooltip
-	url = git@10.182.247.74:go-webframework/go-tooltip.git
+	url = git@10.182.247.74:frontend-framework/go-tooltip.git
 [submodule "src/go-module/component/go-tree"]
 	path = src/go-module/component/go-tree
-	url = git@10.182.247.74:go-webframework/go-tree.git
+	url = git@10.182.247.74:frontend-framework/go-tree.git
 [submodule "src/go-module/font"]
 	path = src/go-module/font
-	url = git@10.182.247.74:go-webframework/go-fonts.git
+	url = git@10.182.247.74:frontend-framework/go-fonts.git
