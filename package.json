@@ -1,7 +1,7 @@
 {
-  "name": "go-webpack-env",
+  "name": "go-package",
   "version": "1.0.0",
-  "description": "Webpack Env Project for pack component",
+  "description": "project for build front-end framework package",
   "scripts": {
     "build": "tsc -p src/",
     "build:watch": "tsc -p src/ -w",
@@ -21,9 +21,6 @@
     "lint": "tslint ./src/**/*.ts -t verbose",
     "webpack": "webpack --color"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "@angular/animations": "~4.0.0",
     "@angular/common": "~4.0.0",
@@ -80,5 +77,19 @@
     "typescript": "~2.1.0",
     "webpack": "^2.3.2"
   },
-  "repository": {}
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/limjoonae/go-package.git"
+  },
+  "author": {
+    "name": "Supakan Siwatmongkol",
+    "email": "supakansiw@gosoft.co.th"
+  },
+  "keywords": [
+    "angular"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/limjoonae/go-package.git/issues"
+  }
 }

@@ -48257,7 +48257,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = __webpack_require__(0);
 __webpack_require__(504);
-var tinypath = 'http://10.182.247.73/go-cdn-dev/node_modules/4.0.0/tinymce/';
+var tinypath = 'http://webcdn.cpall.co.th/node_modules/4.0.0/tinymce/';
 var TextEditorComponent = (function () {
     function TextEditorComponent() {
         this.height = 200;
